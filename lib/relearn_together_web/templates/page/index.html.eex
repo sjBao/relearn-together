@@ -1,0 +1,15 @@
+<h1 class="uk-text-large">This is the instructor dashboard</h1>
+<div class="uk-card uk-card-default">
+  <div class="uk-card-header">
+    <h3 class="uk-text-small">Current Cohort</h3>
+  </div>
+  <div class="uk-card-body">
+    <a href="/">dumbo-web-012918</a>
+  </div>
+  <div class="uk-card-footer">
+  <ul>
+    <li><a href="/">Students</a></li>
+    <li> <a href="/">Activities</a></li>
+  </ul>
+  </div>
+</div>
