@@ -1,4 +1,4 @@
-defmodule RelearnTogether.Campus do
+defmodule RelearnTogether.Cohorts.Campus do
   use Ecto.Schema
   import Ecto.Changeset
 
