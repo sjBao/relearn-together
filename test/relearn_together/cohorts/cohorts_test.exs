@@ -61,4 +61,65 @@ defmodule RelearnTogether.CohortsTest do
       assert %Ecto.Changeset{} = Cohorts.change_campus(campus)
     end
   end
+
+  describe "cohorts" do
+    alias RelearnTogether.Cohorts.Cohort
+
+    @valid_attrs %{batch_number: 42, start_date: ~D[2010-04-17]}
+    @update_attrs %{batch_number: 43, start_date: ~D[2011-05-18]}
+    @invalid_attrs %{batch_number: nil, start_date: nil}
+
+    def cohort_fixture(attrs \\ %{}) do
+      {:ok, cohort} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Cohorts.create_cohort()
+
+      cohort
+    end
+
+    test "list_cohorts/0 returns all cohorts" do
+      cohort = cohort_fixture()
+      assert Cohorts.list_cohorts() == [cohort]
+    end
+
+    test "get_cohort!/1 returns the cohort with given id" do
+      cohort = cohort_fixture()
+      assert Cohorts.get_cohort!(cohort.id) == cohort
+    end
+
+    test "create_cohort/1 with valid data creates a cohort" do
+      assert {:ok, %Cohort{} = cohort} = Cohorts.create_cohort(@valid_attrs)
+      assert cohort.batch_number == 42
+      assert cohort.start_date == ~D[2010-04-17]
+    end
+
+    test "create_cohort/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Cohorts.create_cohort(@invalid_attrs)
+    end
+
+    test "update_cohort/2 with valid data updates the cohort" do
+      cohort = cohort_fixture()
+      assert {:ok, %Cohort{} = cohort} = Cohorts.update_cohort(cohort, @update_attrs)
+      assert cohort.batch_number == 43
+      assert cohort.start_date == ~D[2011-05-18]
+    end
+
+    test "update_cohort/2 with invalid data returns error changeset" do
+      cohort = cohort_fixture()
+      assert {:error, %Ecto.Changeset{}} = Cohorts.update_cohort(cohort, @invalid_attrs)
+      assert cohort == Cohorts.get_cohort!(cohort.id)
+    end
+
+    test "delete_cohort/1 deletes the cohort" do
+      cohort = cohort_fixture()
+      assert {:ok, %Cohort{}} = Cohorts.delete_cohort(cohort)
+      assert_raise Ecto.NoResultsError, fn -> Cohorts.get_cohort!(cohort.id) end
+    end
+
+    test "change_cohort/1 returns a cohort changeset" do
+      cohort = cohort_fixture()
+      assert %Ecto.Changeset{} = Cohorts.change_cohort(cohort)
+    end
+  end
 end
