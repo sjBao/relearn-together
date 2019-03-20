@@ -122,4 +122,63 @@ defmodule RelearnTogether.CohortsTest do
       assert %Ecto.Changeset{} = Cohorts.change_cohort(cohort)
     end
   end
+
+  describe "mods" do
+    alias RelearnTogether.Cohorts.Mod
+
+    @valid_attrs %{number: 42}
+    @update_attrs %{number: 43}
+    @invalid_attrs %{number: nil}
+
+    def mod_fixture(attrs \\ %{}) do
+      {:ok, mod} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Cohorts.create_mod()
+
+      mod
+    end
+
+    test "list_mods/0 returns all mods" do
+      mod = mod_fixture()
+      assert Cohorts.list_mods() == [mod]
+    end
+
+    test "get_mod!/1 returns the mod with given id" do
+      mod = mod_fixture()
+      assert Cohorts.get_mod!(mod.id) == mod
+    end
+
+    test "create_mod/1 with valid data creates a mod" do
+      assert {:ok, %Mod{} = mod} = Cohorts.create_mod(@valid_attrs)
+      assert mod.number == 42
+    end
+
+    test "create_mod/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Cohorts.create_mod(@invalid_attrs)
+    end
+
+    test "update_mod/2 with valid data updates the mod" do
+      mod = mod_fixture()
+      assert {:ok, %Mod{} = mod} = Cohorts.update_mod(mod, @update_attrs)
+      assert mod.number == 43
+    end
+
+    test "update_mod/2 with invalid data returns error changeset" do
+      mod = mod_fixture()
+      assert {:error, %Ecto.Changeset{}} = Cohorts.update_mod(mod, @invalid_attrs)
+      assert mod == Cohorts.get_mod!(mod.id)
+    end
+
+    test "delete_mod/1 deletes the mod" do
+      mod = mod_fixture()
+      assert {:ok, %Mod{}} = Cohorts.delete_mod(mod)
+      assert_raise Ecto.NoResultsError, fn -> Cohorts.get_mod!(mod.id) end
+    end
+
+    test "change_mod/1 returns a mod changeset" do
+      mod = mod_fixture()
+      assert %Ecto.Changeset{} = Cohorts.change_mod(mod)
+    end
+  end
 end

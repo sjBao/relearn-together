@@ -197,4 +197,100 @@ defmodule RelearnTogether.Cohorts do
   def change_cohort(%Cohort{} = cohort) do
     Cohort.changeset(cohort, %{})
   end
+
+  alias RelearnTogether.Cohorts.Mod
+
+  @doc """
+  Returns the list of mods.
+
+  ## Examples
+
+      iex> list_mods()
+      [%Mod{}, ...]
+
+  """
+  def list_mods do
+    Repo.all(Mod)
+  end
+
+  @doc """
+  Gets a single mod.
+
+  Raises `Ecto.NoResultsError` if the Mod does not exist.
+
+  ## Examples
+
+      iex> get_mod!(123)
+      %Mod{}
+
+      iex> get_mod!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_mod!(id), do: Repo.get!(Mod, id)
+
+  @doc """
+  Creates a mod.
+
+  ## Examples
+
+      iex> create_mod(%{field: value})
+      {:ok, %Mod{}}
+
+      iex> create_mod(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_mod(attrs \\ %{}) do
+    %Mod{}
+    |> Mod.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a mod.
+
+  ## Examples
+
+      iex> update_mod(mod, %{field: new_value})
+      {:ok, %Mod{}}
+
+      iex> update_mod(mod, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_mod(%Mod{} = mod, attrs) do
+    mod
+    |> Mod.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Mod.
+
+  ## Examples
+
+      iex> delete_mod(mod)
+      {:ok, %Mod{}}
+
+      iex> delete_mod(mod)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_mod(%Mod{} = mod) do
+    Repo.delete(mod)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking mod changes.
+
+  ## Examples
+
+      iex> change_mod(mod)
+      %Ecto.Changeset{source: %Mod{}}
+
+  """
+  def change_mod(%Mod{} = mod) do
+    Mod.changeset(mod, %{})
+  end
 end
