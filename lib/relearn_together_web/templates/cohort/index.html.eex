@@ -1,0 +1,28 @@
+<h1>Listing Cohorts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start date</th>
+      <th>Batch number</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for cohort <- @cohorts do %>
+    <tr>
+      <td><%= cohort.start_date %></td>
+      <td><%= cohort.batch_number %></td>
+
+      <td>
+        <%= link "Show", to: Routes.cohort_path(@conn, :show, cohort) %>
+        <%= link "Edit", to: Routes.cohort_path(@conn, :edit, cohort) %>
+        <%= link "Delete", to: Routes.cohort_path(@conn, :delete, cohort), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Cohort", to: Routes.cohort_path(@conn, :new) %></span>
