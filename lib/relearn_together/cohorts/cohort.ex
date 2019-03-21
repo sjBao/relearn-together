@@ -5,7 +5,7 @@ defmodule RelearnTogether.Cohorts.Cohort do
   schema "cohorts" do
     field :batch_number, :integer
     field :start_date, :date
-    field :campus_id, :id
+    belongs_to :campus, RelearnTogether.Cohorts.Campus
 
     timestamps()
   end

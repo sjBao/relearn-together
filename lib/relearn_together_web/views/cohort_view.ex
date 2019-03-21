@@ -1,3 +1,14 @@
 defmodule RelearnTogetherWeb.CohortView do
   use RelearnTogetherWeb, :view
+
+  def uk_date_select(form, field, opts \\ []) do
+    builder = fn b ->
+      ~e"""
+      <%= b.(:day, opts) %> 
+      <%= b.(:month, opts) %> 
+      <%= b.(:year, opts) %>
+      """
+    end
+    datetime_select(form, field, [builder: builder] ++ opts)
+  end
 end

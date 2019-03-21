@@ -10,8 +10,10 @@ defmodule RelearnTogetherWeb.CohortController do
   end
 
   def new(conn, _params) do
-    changeset = Cohorts.change_cohort(%Cohort{})
-    render(conn, "new.html", changeset: changeset)
+    conn
+    |> assign(:campuses, Cohorts.list_campuses)
+    |> assign(:changeset, Cohorts.change_cohort(%Cohort{}))
+    |> render("new.html")
   end
 
   def create(conn, %{"cohort" => cohort_params}) do
