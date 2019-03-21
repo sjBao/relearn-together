@@ -12,6 +12,7 @@ defmodule RelearnTogetherWeb.CohortController do
   def new(conn, _params) do
     conn
     |> assign(:campuses, Cohorts.list_campuses)
+    |> assign(:campus, Cohorts.change_campus(%Cohorts.Campus{}))
     |> assign(:changeset, Cohorts.change_cohort(%Cohort{}))
     |> render("new.html")
   end
@@ -37,8 +38,8 @@ defmodule RelearnTogetherWeb.CohortController do
     cohort = Cohorts.get_cohort!(id)
     conn
     |> assign(:cohort, cohort)
-    |> assign(:changeset, Cohorts.change_cohort(cohort))
     |> assign(:campuses, Cohorts.list_campuses)
+    |> assign(:changeset, Cohorts.change_cohort(cohort))
     |> render "edit.html"
   end
 

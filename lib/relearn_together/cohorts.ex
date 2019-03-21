@@ -114,7 +114,9 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def list_cohorts do
-    Repo.all(Cohort)
+    Cohort
+    |> Repo.all
+    |> Repo.preload(:campus)
   end
 
   @doc """
@@ -131,7 +133,7 @@ defmodule RelearnTogether.Cohorts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cohort!(id), do: Repo.get!(Cohort, id)
+  def get_cohort!(id), do: Cohort |> Repo.get!(id) |> Repo.preload(:campus)
 
   @doc """
   Creates a cohort.

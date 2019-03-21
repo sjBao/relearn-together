@@ -1,18 +1,9 @@
 <h1>Listing Cohorts</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Start date</th>
-      <th>Batch number</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for cohort <- @cohorts do %>
-    <tr>
-      <td><%= cohort.start_date %></td>
+<ul class="uk-list uk-list-striped">
+  <%= for cohort <- @cohorts do %>
+    <li>
+      <p><%= cohort_name(cohort) %></p>
       <td><%= cohort.batch_number %></td>
 
       <td>
@@ -20,9 +11,8 @@
         <%= link "Edit", to: Routes.cohort_path(@conn, :edit, cohort) %>
         <%= link "Delete", to: Routes.cohort_path(@conn, :delete, cohort), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+    </li>
+  <% end %>
+</ul>
 
 <span><%= link "New Cohort", to: Routes.cohort_path(@conn, :new) %></span>
