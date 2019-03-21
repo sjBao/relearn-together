@@ -6,7 +6,7 @@ defmodule RelearnTogether.Cohorts do
   import Ecto.Query, warn: false
   alias RelearnTogether.Repo
 
-  alias RelearnTogether.Cohorts.Campus
+  alias RelearnTogether.Cohorts.{Campus, Cohort, Mod, Student}
 
   @doc """
   Returns the list of campuses.
@@ -102,8 +102,6 @@ defmodule RelearnTogether.Cohorts do
     Campus.changeset(campus, %{})
   end
 
-  alias RelearnTogether.Cohorts.Cohort
-
   @doc """
   Returns the list of cohorts.
 
@@ -148,6 +146,7 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def create_cohort(attrs \\ %{}) do
+    IO.inspect attrs
     %Cohort{}
     |> Cohort.changeset(attrs)
     |> Repo.insert()
@@ -166,6 +165,7 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def update_cohort(%Cohort{} = cohort, attrs) do
+    IO.inspect attrs
     cohort
     |> Cohort.changeset(attrs)
     |> Repo.update()
@@ -199,8 +199,6 @@ defmodule RelearnTogether.Cohorts do
   def change_cohort(%Cohort{} = cohort) do
     Cohort.changeset(cohort, %{})
   end
-
-  alias RelearnTogether.Cohorts.Mod
 
   @doc """
   Returns the list of mods.
@@ -295,8 +293,6 @@ defmodule RelearnTogether.Cohorts do
   def change_mod(%Mod{} = mod) do
     Mod.changeset(mod, %{})
   end
-
-  alias RelearnTogether.Cohorts.Student
 
   @doc """
   Returns the list of students.
