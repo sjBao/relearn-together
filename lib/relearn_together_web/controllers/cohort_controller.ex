@@ -35,8 +35,11 @@ defmodule RelearnTogetherWeb.CohortController do
 
   def edit(conn, %{"id" => id}) do
     cohort = Cohorts.get_cohort!(id)
-    changeset = Cohorts.change_cohort(cohort)
-    render(conn, "edit.html", cohort: cohort, changeset: changeset)
+    conn
+    |> assign(:cohort, cohort)
+    |> assign(:changeset, Cohorts.change_cohort(cohort))
+    |> assign(:campuses, Cohorts.list_campuses)
+    |> render "edit.html"
   end
 
   def update(conn, %{"id" => id, "cohort" => cohort_params}) do
