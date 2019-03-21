@@ -146,9 +146,10 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def create_cohort(attrs \\ %{}) do
-    IO.inspect attrs
+    campus = Repo.get_by(Campus, [name: attrs["campus"]["name"]])
     %Cohort{}
     |> Cohort.changeset(attrs)
+    |> Ecto.Changeset.put_change(:campus, campus)
     |> Repo.insert()
   end
 
@@ -165,7 +166,6 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def update_cohort(%Cohort{} = cohort, attrs) do
-    IO.inspect attrs
     cohort
     |> Cohort.changeset(attrs)
     |> Repo.update()

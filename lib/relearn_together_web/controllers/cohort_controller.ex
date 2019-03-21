@@ -25,7 +25,7 @@ defmodule RelearnTogetherWeb.CohortController do
         |> redirect(to: Routes.cohort_path(conn, :show, cohort))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, campuses: Cohorts.list_campuses)
     end
   end
 
