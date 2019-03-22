@@ -17,6 +17,7 @@ defmodule RelearnTogetherWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/cohorts", CohortController
   end
 
   # Other scopes may use custom stacks.

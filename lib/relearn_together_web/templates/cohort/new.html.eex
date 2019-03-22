@@ -1,0 +1,3 @@
+<h1 class="uk-text-large">New Cohort</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.cohort_path(@conn, :create)) %>

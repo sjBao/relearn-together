@@ -3,8 +3,8 @@
 // its own CSS file.
 import uikitjs from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
+import uikit from 'uikit/dist/css/uikit.min.css';
 import css from "../css/app.css";
-import uikit from '../node_modules/uikit/dist/css/uikit.min.css';
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured

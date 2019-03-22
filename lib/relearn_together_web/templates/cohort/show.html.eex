@@ -1,0 +1,18 @@
+<h1>Show Cohort</h1>
+
+<ul>
+
+  <li>
+    <strong>Start date:</strong>
+    <%= @cohort.start_date %>
+  </li>
+
+  <li>
+    <strong>Batch number:</strong>
+    <%= @cohort.batch_number %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.cohort_path(@conn, :edit, @cohort) %></span>
+<span><%= link "Back", to: Routes.cohort_path(@conn, :index) %></span>
