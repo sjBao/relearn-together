@@ -1,15 +1,15 @@
-<h1>Show Cohort</h1>
+<h1 class="uk-text-large uk-text-lead"><%= cohort_name(@cohort) %></h1>
+<p class="uk-text-meta uk-text-small">
+  <strong>Batch number:</strong><%= @cohort.batch_number %>
+</p>
 
 <ul>
-
   <li>
     <strong>Start date:</strong>
     <%= @cohort.start_date %>
   </li>
 
   <li>
-    <strong>Batch number:</strong>
-    <%= @cohort.batch_number %>
   </li>
 
 </ul>
