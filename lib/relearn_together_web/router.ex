@@ -18,6 +18,9 @@ defmodule RelearnTogetherWeb.Router do
 
     get "/", PageController, :index
     resources "/cohorts", CohortController
+    resources "/cohorts", CohortController do
+      resources "/students", StudentController
+    end
   end
 
   # Other scopes may use custom stacks.
