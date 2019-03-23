@@ -1,18 +1,22 @@
-<h1 class="uk-text-large uk-text-lead"><%= cohort_name(@cohort) %></h1>
-<p class="uk-text-meta uk-text-small">
+
+<h1 class="uk-heading-primary"><%= cohort_name(@cohort) %></h1>
+<p class="uk-text-meta">
   <strong>Batch number:</strong><%= @cohort.batch_number %>
 </p>
 
-<ul>
-  <li>
-    <strong>Start date:</strong>
-    <%= @cohort.start_date %>
-  </li>
-
-  <li>
-  </li>
-
-</ul>
+<div class="uk-section uk-section-muted">
+  <h3>Students</h3>
+    <ul class="students-list">
+    <%= for i <- 1..10 do %>
+      <div class="uk-card uk-card-default uk-padding-small uk-text-center">
+        <img src="https://avatars.slack-edge.com/2017-12-08/283789275363_7df8663dcb1ea65f2bf3_192.jpg" alt="">
+        <div class="uk-card-footer">
+          <a href="/">student link</a>
+        </div>
+      </div>
+    <% end %>
+    </ul>
+</div>
 
 <span><%= link "Edit", to: Routes.cohort_path(@conn, :edit, @cohort) %></span>
 <span><%= link "Back", to: Routes.cohort_path(@conn, :index) %></span>

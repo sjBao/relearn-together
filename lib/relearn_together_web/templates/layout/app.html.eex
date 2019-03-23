@@ -16,7 +16,7 @@
                 <nav class="uk-navbar-container">
                     <div class="uk-container uk-container-expand">
                         <div uk-navbar>
-                            <a href="/" class="uk-navbar-item uk-logo">
+                            <a href="/" class="uk-navbar-item uk-logo" id="logo">
                                 <strong>//</strong>&nbsp; Re-Learn Together
                             </a>
                             <div class="uk-navbar-right">
@@ -31,7 +31,7 @@
             </div>
         </div>
     </header>
-    <main role="main" class="uk-padding">
+    <main role="main" class="uk-container">
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
         <%= render @view_module, @view_template, assigns %>

@@ -1,0 +1,7 @@
+.students-list {
+  display: grid;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fill, 215px);
+  justify-content: center;
+}
