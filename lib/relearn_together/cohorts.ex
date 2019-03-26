@@ -118,9 +118,9 @@ defmodule RelearnTogether.Cohorts do
   end
 
   def list_sibling_cohorts(cohort_id) do
-    %{campus_id: campus_id} = get_cohort!(cohort_id)
-    %{cohorts: cohorts} = get_campus!(campus_id) |> Repo.preload(:cohorts)
-    cohorts |> Repo.preload(:campus)
+    %{campus: %{cohorts: cohorts}} = RelearnTogether.Cohorts.get_cohort!(11) 
+    |> RelearnTogether.Repo.preload(campus: [cohorts: :campus])
+    cohorts
   end
 
   @doc """
@@ -342,8 +342,10 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def create_student(attrs \\ %{}) do
+    current_cohort = Repo.get_by(Campus, [name: attrs["current_cohort"]["id"]])
     %Student{}
     |> Student.changeset(attrs)
+    |> Ecto.Changeset.put_change(:current_cohort, current_cohort)
     |> Repo.insert()
   end
 

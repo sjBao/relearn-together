@@ -21,6 +21,7 @@ defmodule RelearnTogetherWeb.Router do
     resources "/cohorts", CohortController do
       resources "/students", StudentController
     end
+    resources "students", StudentController, only: [:show]
   end
 
   # Other scopes may use custom stacks.
