@@ -9,7 +9,7 @@
   <div class="students-container">
     <h3>Students</h3>
     <div class="students-list">
-    <%= for i <- 1..10 do %>
+    <%= for student <- @cohort.students do %>
       <div class="students-list-card">
         <img src="https://avatars.slack-edge.com/2017-12-08/283789275363_7df8663dcb1ea65f2bf3_192.jpg" alt="">
         <div>

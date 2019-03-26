@@ -8,7 +8,7 @@ defmodule RelearnTogether.Cohorts.Cohort do
     field :start_date, :date
 
     belongs_to :campus, Campus
-    has_many :students, Student
+    has_many :students, Student, foreign_key: :current_cohort_id
 
     timestamps()
   end

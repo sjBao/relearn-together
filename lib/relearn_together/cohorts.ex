@@ -137,7 +137,7 @@ defmodule RelearnTogether.Cohorts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cohort!(id), do: Cohort |> Repo.get!(id) |> Repo.preload(:campus)
+  def get_cohort!(id), do: Cohort |> Repo.get!(id) |> Repo.preload([:campus, :students])
 
   @doc """
   Creates a cohort.
@@ -342,7 +342,7 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def create_student(attrs \\ %{}) do
-    current_cohort = Repo.get_by(Campus, [name: attrs["current_cohort"]["id"]])
+    current_cohort = get_cohort!(attrs["current_cohort"]["id"])
     %Student{}
     |> Student.changeset(attrs)
     |> Ecto.Changeset.put_change(:current_cohort, current_cohort)
