@@ -21,7 +21,7 @@
     <hr>
     <div class="uk-align-right uk-margin-remove">
       <%= link "Create Student for Cohort", to: Routes.cohort_student_path(@conn, :new, @cohort), class: "uk-button uk-button-primary" %>
-      <%= link "Populate Class from Batch", to: Routes.cohort_student_path(@conn, :new, @cohort), class: "uk-button uk-button-default" %>
+      <%= link "Populate Class from Batch", to: Routes.fetch_batch_students_path(@conn, :fetch_batch_students, @cohort), class: "uk-button uk-button-default" %>
     </div>
   </div>
 </div>
