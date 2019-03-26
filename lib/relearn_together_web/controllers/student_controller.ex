@@ -11,7 +11,9 @@ defmodule RelearnTogetherWeb.StudentController do
 
   def new(conn, _params) do
     changeset = Cohorts.change_student(%Student{})
-    render(conn, "new.html", changeset: changeset)
+    conn
+    |> assign(:cohorts, Cohorts.list_cohorts)
+    |> render("new.html", changeset: changeset)
   end
 
   def create(conn, %{"student" => student_params}) do
