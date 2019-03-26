@@ -6,6 +6,8 @@ import Icons from 'uikit/dist/js/uikit-icons';
 import uikit from 'uikit/dist/css/uikit.min.css';
 import css from "../css/app.css";
 
+uikitjs.use(Icons);
+
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".

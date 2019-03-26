@@ -18,7 +18,7 @@ defmodule RelearnTogetherWeb.CohortView do
 
   def cohort_number(%Date{year: year, month: month, day: day}) do
     String.pad_leading("#{month}", 2, "0")
-    <> "#{day}"
+    <> String.pad_leading("#{day}", 2, "0")
     <> String.slice("#{year}", -2, 2)
   end
 

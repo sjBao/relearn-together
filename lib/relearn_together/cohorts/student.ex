@@ -1,12 +1,14 @@
 defmodule RelearnTogether.Cohorts.Student do
   use Ecto.Schema
   import Ecto.Changeset
+  alias RelearnTogether.Cohorts.Cohort
 
   schema "students" do
     field :first_name, :string
     field :github_handle, :string
     field :last_name, :string
     field :preferred_name, :string
+    belongs_to :current_cohort, Cohort
 
     timestamps()
   end

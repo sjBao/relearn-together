@@ -1,6 +1,6 @@
 defmodule RelearnTogetherWeb.StudentController do
   use RelearnTogetherWeb, :controller
-
+  alias RelearnTogether.Repo
   alias RelearnTogether.Cohorts
   alias RelearnTogether.Cohorts.Student
 
@@ -9,9 +9,11 @@ defmodule RelearnTogetherWeb.StudentController do
     render(conn, "index.html", students: students)
   end
 
-  def new(conn, _params) do
+  def new(conn, %{"cohort_id" => cohort_id}) do
     changeset = Cohorts.change_student(%Student{})
-    render(conn, "new.html", changeset: changeset)
+    conn
+    |> assign(:cohorts, Cohorts.list_sibling_cohorts(cohort_id))
+    |> render("new.html", changeset: changeset)
   end
 
   def create(conn, %{"student" => student_params}) do

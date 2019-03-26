@@ -23,6 +23,3 @@
   </li>
 
 </ul>
-
-<span><%= link "Edit", to: Routes.student_path(@conn, :edit, @student) %></span>
-<span><%= link "Back", to: Routes.student_path(@conn, :index) %></span>
