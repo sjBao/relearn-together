@@ -117,6 +117,12 @@ defmodule RelearnTogether.Cohorts do
     |> Repo.preload(:campus)
   end
 
+  def list_sibling_cohorts(cohort_id) do
+    %{campus_id: campus_id} = get_cohort!(cohort_id)
+    %{cohorts: cohorts} = get_campus!(campus_id) |> Repo.preload(:cohorts)
+    cohorts |> Repo.preload(:campus)
+  end
+
   @doc """
   Gets a single cohort.
 

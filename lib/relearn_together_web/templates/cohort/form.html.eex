@@ -14,7 +14,7 @@
   <div class="uk-margin">
     <%= label f, :campus, class: "uk-form-label" %>
     <%= inputs_for f, :campus, fn cohort_campus -> %>
-      <%= select cohort_campus, :name, @campuses |> Enum.map(&(&1.name)), class: "uk-select" %>
+      <%= select cohort_campus, :name, Enum.map(@campuses, &(&1.name)), class: "uk-select" %>
     <% end %>
   </div>
 
