@@ -6,6 +6,7 @@ defmodule RelearnTogether.Repo.Migrations.CreateActivities do
       add :cohort_id, references(:cohorts, on_delete: :nothing)
       add :mod_id, references(:mods, on_delete: :nothing)
       add :label_id, references(:labels, on_delete: :nothing)
+      add :name, :string
 
       timestamps()
     end

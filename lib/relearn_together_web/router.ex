@@ -20,6 +20,7 @@ defmodule RelearnTogetherWeb.Router do
     resources "/cohorts", CohortController
     resources "/cohorts", CohortController do
       resources "/students", StudentController
+      resources "/activities", ActivityController
     end
     resources "students", StudentController, only: [:show]
     get "/cohorts/:cohort_id/fetch_batch_students",  CohortController, :fetch_batch_students, as: "fetch_batch_students"
