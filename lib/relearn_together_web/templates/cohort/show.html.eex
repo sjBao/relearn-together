@@ -11,7 +11,7 @@
     <div class="students-list uk-margin">
     <%= for student <- @cohort.students do %>
       <div class="students-list-card">
-        <img src="https://avatars.slack-edge.com/2017-12-08/283789275363_7df8663dcb1ea65f2bf3_192.jpg" alt="">
+        <%= img_tag "https://avatars.githubusercontent.com/#{student.github_username}"  %>
         <div class="uk-padding-small uk-padding-remove-bottom">
           <%= link student.preferred_name || "#{student.first_name} #{student.last_name}", to: Routes.student_path(@conn, :show, student) %>
         </div>
@@ -21,7 +21,7 @@
     <hr>
     <div class="uk-align-right uk-margin-remove">
       <%= link "Create Student for Cohort", to: Routes.cohort_student_path(@conn, :new, @cohort), class: "uk-button uk-button-primary" %>
-      <%= link "Populate Class from Batch", to: Routes.fetch_batch_students_path(@conn, :fetch_batch_students, @cohort), class: "uk-button uk-button-default" %>
+      <%= link "Populate Class from Batch", to: Routes.fetch_batch_students_path(@conn, :fetch_batch_students, @cohort), class: "uk-button uk-button-default", "uk-tooltip": "Fetches student from the matching batch number in learn.co/batches" %>
     </div>
   </div>
 </div>
