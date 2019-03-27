@@ -1,6 +1,7 @@
 defmodule RelearnTogetherWeb.ActivityController do
   use RelearnTogetherWeb, :controller
 
+  alias RelearnTogether.Repo
   alias RelearnTogether.Cohorts
   alias RelearnTogether.Groupings
   alias RelearnTogether.Groupings.Activity
@@ -10,12 +11,16 @@ defmodule RelearnTogetherWeb.ActivityController do
     render(conn, "index.html", activities: activities)
   end
 
-  def new(conn, _params) do
-    changeset = Groupings.change_activity(%Activity{})
-    conn
-    |> assign(:labels, Groupings.list_labels)
-    |> assign(:mods, Cohorts.list_mods)
-    |> render("new.html", changeset: changeset)
+  def new(conn, %{"cohort_id" => cohort_id}) do
+    case Groupings.create_activity(%{cohort_id: cohort_id}) do
+      {:ok, activity} ->
+        conn
+        |> put_flash(:info, "Activity created successfully.")
+        |> redirect(to: Routes.cohort_activity_path(conn, :edit, cohort_id, activity))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
   end
 
   def create(conn, %{"activity" => activity_params}) do
@@ -35,10 +40,16 @@ defmodule RelearnTogetherWeb.ActivityController do
     render(conn, "show.html", activity: activity)
   end
 
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"cohort_id" => cohort_id, "id" => id}) do
     activity = Groupings.get_activity!(id)
     changeset = Groupings.change_activity(activity)
-    render(conn, "edit.html", activity: activity, changeset: changeset)
+    %{students: students} = Cohorts.get_cohort!(cohort_id) |> Repo.preload(:students)
+    IO.inspect conn
+    conn
+    |> assign(:labels, Groupings.list_labels)
+    |> assign(:mods, Cohorts.list_mods)
+    |> assign(:students, students)
+    |> render("edit.html", activity: activity, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "activity" => activity_params}) do
