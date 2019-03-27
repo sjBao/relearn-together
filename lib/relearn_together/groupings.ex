@@ -293,4 +293,100 @@ defmodule RelearnTogether.Groupings do
   def change_group(%Group{} = group) do
     Group.changeset(group, %{})
   end
+
+  alias RelearnTogether.Groupings.GroupStudent
+
+  @doc """
+  Returns the list of group_students.
+
+  ## Examples
+
+      iex> list_group_students()
+      [%GroupStudent{}, ...]
+
+  """
+  def list_group_students do
+    Repo.all(GroupStudent)
+  end
+
+  @doc """
+  Gets a single group_student.
+
+  Raises `Ecto.NoResultsError` if the Group student does not exist.
+
+  ## Examples
+
+      iex> get_group_student!(123)
+      %GroupStudent{}
+
+      iex> get_group_student!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_group_student!(id), do: Repo.get!(GroupStudent, id)
+
+  @doc """
+  Creates a group_student.
+
+  ## Examples
+
+      iex> create_group_student(%{field: value})
+      {:ok, %GroupStudent{}}
+
+      iex> create_group_student(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_group_student(attrs \\ %{}) do
+    %GroupStudent{}
+    |> GroupStudent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a group_student.
+
+  ## Examples
+
+      iex> update_group_student(group_student, %{field: new_value})
+      {:ok, %GroupStudent{}}
+
+      iex> update_group_student(group_student, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_group_student(%GroupStudent{} = group_student, attrs) do
+    group_student
+    |> GroupStudent.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a GroupStudent.
+
+  ## Examples
+
+      iex> delete_group_student(group_student)
+      {:ok, %GroupStudent{}}
+
+      iex> delete_group_student(group_student)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_group_student(%GroupStudent{} = group_student) do
+    Repo.delete(group_student)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking group_student changes.
+
+  ## Examples
+
+      iex> change_group_student(group_student)
+      %Ecto.Changeset{source: %GroupStudent{}}
+
+  """
+  def change_group_student(%GroupStudent{} = group_student) do
+    GroupStudent.changeset(group_student, %{})
+  end
 end

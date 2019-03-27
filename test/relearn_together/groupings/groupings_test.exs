@@ -177,4 +177,61 @@ defmodule RelearnTogether.GroupingsTest do
       assert %Ecto.Changeset{} = Groupings.change_group(group)
     end
   end
+
+  describe "group_students" do
+    alias RelearnTogether.Groupings.GroupStudent
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def group_student_fixture(attrs \\ %{}) do
+      {:ok, group_student} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Groupings.create_group_student()
+
+      group_student
+    end
+
+    test "list_group_students/0 returns all group_students" do
+      group_student = group_student_fixture()
+      assert Groupings.list_group_students() == [group_student]
+    end
+
+    test "get_group_student!/1 returns the group_student with given id" do
+      group_student = group_student_fixture()
+      assert Groupings.get_group_student!(group_student.id) == group_student
+    end
+
+    test "create_group_student/1 with valid data creates a group_student" do
+      assert {:ok, %GroupStudent{} = group_student} = Groupings.create_group_student(@valid_attrs)
+    end
+
+    test "create_group_student/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Groupings.create_group_student(@invalid_attrs)
+    end
+
+    test "update_group_student/2 with valid data updates the group_student" do
+      group_student = group_student_fixture()
+      assert {:ok, %GroupStudent{} = group_student} = Groupings.update_group_student(group_student, @update_attrs)
+    end
+
+    test "update_group_student/2 with invalid data returns error changeset" do
+      group_student = group_student_fixture()
+      assert {:error, %Ecto.Changeset{}} = Groupings.update_group_student(group_student, @invalid_attrs)
+      assert group_student == Groupings.get_group_student!(group_student.id)
+    end
+
+    test "delete_group_student/1 deletes the group_student" do
+      group_student = group_student_fixture()
+      assert {:ok, %GroupStudent{}} = Groupings.delete_group_student(group_student)
+      assert_raise Ecto.NoResultsError, fn -> Groupings.get_group_student!(group_student.id) end
+    end
+
+    test "change_group_student/1 returns a group_student changeset" do
+      group_student = group_student_fixture()
+      assert %Ecto.Changeset{} = Groupings.change_group_student(group_student)
+    end
+  end
 end
