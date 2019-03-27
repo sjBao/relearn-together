@@ -120,4 +120,61 @@ defmodule RelearnTogether.GroupingsTest do
       assert %Ecto.Changeset{} = Groupings.change_activity(activity)
     end
   end
+
+  describe "groups" do
+    alias RelearnTogether.Groupings.Group
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def group_fixture(attrs \\ %{}) do
+      {:ok, group} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Groupings.create_group()
+
+      group
+    end
+
+    test "list_groups/0 returns all groups" do
+      group = group_fixture()
+      assert Groupings.list_groups() == [group]
+    end
+
+    test "get_group!/1 returns the group with given id" do
+      group = group_fixture()
+      assert Groupings.get_group!(group.id) == group
+    end
+
+    test "create_group/1 with valid data creates a group" do
+      assert {:ok, %Group{} = group} = Groupings.create_group(@valid_attrs)
+    end
+
+    test "create_group/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Groupings.create_group(@invalid_attrs)
+    end
+
+    test "update_group/2 with valid data updates the group" do
+      group = group_fixture()
+      assert {:ok, %Group{} = group} = Groupings.update_group(group, @update_attrs)
+    end
+
+    test "update_group/2 with invalid data returns error changeset" do
+      group = group_fixture()
+      assert {:error, %Ecto.Changeset{}} = Groupings.update_group(group, @invalid_attrs)
+      assert group == Groupings.get_group!(group.id)
+    end
+
+    test "delete_group/1 deletes the group" do
+      group = group_fixture()
+      assert {:ok, %Group{}} = Groupings.delete_group(group)
+      assert_raise Ecto.NoResultsError, fn -> Groupings.get_group!(group.id) end
+    end
+
+    test "change_group/1 returns a group changeset" do
+      group = group_fixture()
+      assert %Ecto.Changeset{} = Groupings.change_group(group)
+    end
+  end
 end
