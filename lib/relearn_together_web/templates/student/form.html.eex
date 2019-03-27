@@ -23,12 +23,12 @@
     <%= error_tag f, :preferred_name %>
   </div>
   <div class="uk-margin">
-    <%= label f, :github_handle, class: "uk-form-label" %>
+    <%= label f, :github_username, class: "uk-form-label" %>
     <div style="position: relative">
       <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: github"></span>
-      <%= text_input f, :github_handle, class: "uk-input", placeholder: "github handle" %>
+      <%= text_input f, :github_username, class: "uk-input", placeholder: "github handle" %>
     </div>
-    <%= error_tag f, :github_handle %>
+    <%= error_tag f, :github_username %>
   </div>
 
   <div class="uk-margin">
