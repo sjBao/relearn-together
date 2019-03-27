@@ -8,6 +8,15 @@
 <div class="uk-section uk-section-muted">
   <div class="activities-container">
     <h3>Activities</h3>
+    <ul class="activities-list uk-list">
+    <%= for activity <- @cohort.activities do %>
+      <li class="uk-card uk-card-default">
+        <div class="uk-padding-small">
+          <%= link activity.name || "<Unamed Activity>", to: Routes.cohort_activity_path(@conn, :show, @cohort, activity) %>
+        </div>
+      </li>
+    <% end %>
+    </ul>
     <hr>
     <div class="uk-align-right uk-margin-remove">
       <%= link "New Activity", to: Routes.cohort_activity_path(@conn, :new, @cohort), class: "uk-button uk-button-primary" %>
