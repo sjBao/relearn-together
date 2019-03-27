@@ -22,6 +22,7 @@ defmodule RelearnTogetherWeb.Router do
       resources "/students", StudentController
     end
     resources "students", StudentController, only: [:show]
+    get "/cohorts/:cohort_id/fetch_batch_students",  CohortController, :fetch_batch_students, as: "fetch_batch_students"
   end
 
   # Other scopes may use custom stacks.

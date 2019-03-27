@@ -5,7 +5,7 @@ defmodule RelearnTogether.Cohorts do
 
   import Ecto.Query, warn: false
   alias RelearnTogether.Repo
-
+  alias RelearnTogether.LearnAdapter
   alias RelearnTogether.Cohorts.{Campus, Cohort, Mod, Student}
 
   @doc """
@@ -113,12 +113,13 @@ defmodule RelearnTogether.Cohorts do
   """
   def list_cohorts do
     Cohort
+    |> order_by(desc: :start_date, asc: :campus_id)
     |> Repo.all
-    |> Repo.preload(:campus)
+    |> Repo.preload([:campus, :students])
   end
 
   def list_sibling_cohorts(cohort_id) do
-    %{campus: %{cohorts: cohorts}} = RelearnTogether.Cohorts.get_cohort!(11) 
+    %{campus: %{cohorts: cohorts}} = RelearnTogether.Cohorts.get_cohort!(cohort_id) 
     |> RelearnTogether.Repo.preload(campus: [cohorts: :campus])
     cohorts
   end
@@ -137,7 +138,7 @@ defmodule RelearnTogether.Cohorts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cohort!(id), do: Cohort |> Repo.get!(id) |> Repo.preload(:campus)
+  def get_cohort!(id), do: Cohort |> Repo.get!(id) |> Repo.preload([:campus, :students])
 
   @doc """
   Creates a cohort.
@@ -327,7 +328,7 @@ defmodule RelearnTogether.Cohorts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_student!(id), do: Repo.get!(Student, id)
+  def get_student!(id), do: Repo.get!(Student, id) |> Repo.preload(current_cohort: :campus)
 
   @doc """
   Creates a student.
@@ -342,7 +343,7 @@ defmodule RelearnTogether.Cohorts do
 
   """
   def create_student(attrs \\ %{}) do
-    current_cohort = Repo.get_by(Campus, [name: attrs["current_cohort"]["id"]])
+    current_cohort = get_cohort!(attrs["current_cohort"]["id"])
     %Student{}
     |> Student.changeset(attrs)
     |> Ecto.Changeset.put_change(:current_cohort, current_cohort)
@@ -394,5 +395,21 @@ defmodule RelearnTogether.Cohorts do
   """
   def change_student(%Student{} = student) do
     Student.changeset(student, %{})
+  end
+
+  def fetch_batch_students(cohort_id) do
+    %Cohort{batch_number: batch_number} = get_cohort!(cohort_id)
+    response = LearnAdapter.fetch_batch_students(batch_number)
+    case LearnAdapter.handle_response(response) do
+      {:ok, %{"users" => users}} ->
+        users 
+        |> LearnAdapter.filter_invalid_students
+        |> Enum.each( fn student ->
+            !Repo.get_by(Student, first_name: student["first_name"], github_username: student["github_username"]) &&
+            student |> Map.merge(%{"current_cohort" => %{"id" => cohort_id} }) |> create_student
+        end)
+      {:error, error} -> 
+        {:error, error}
+    end
   end
 end

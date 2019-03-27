@@ -3,9 +3,9 @@ defmodule RelearnTogetherWeb.StudentControllerTest do
 
   alias RelearnTogether.Cohorts
 
-  @create_attrs %{first_name: "some first_name", github_handle: "some github_handle", last_name: "some last_name", preferred_name: "some preferred_name"}
-  @update_attrs %{first_name: "some updated first_name", github_handle: "some updated github_handle", last_name: "some updated last_name", preferred_name: "some updated preferred_name"}
-  @invalid_attrs %{first_name: nil, github_handle: nil, last_name: nil, preferred_name: nil}
+  @create_attrs %{first_name: "some first_name", github_username: "some github_username", last_name: "some last_name", preferred_name: "some preferred_name"}
+  @update_attrs %{first_name: "some updated first_name", github_username: "some updated github_username", last_name: "some updated last_name", preferred_name: "some updated preferred_name"}
+  @invalid_attrs %{first_name: nil, github_username: nil, last_name: nil, preferred_name: nil}
 
   def fixture(:student) do
     {:ok, student} = Cohorts.create_student(@create_attrs)

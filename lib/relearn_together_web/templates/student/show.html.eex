@@ -1,25 +1,10 @@
-<h1>Show Student</h1>
-
-<ul>
-
-  <li>
-    <strong>First name:</strong>
-    <%= @student.first_name %>
-  </li>
-
-  <li>
-    <strong>Last name:</strong>
-    <%= @student.last_name %>
-  </li>
-
-  <li>
-    <strong>Preferred name:</strong>
-    <%= @student.preferred_name %>
-  </li>
-
-  <li>
-    <strong>Github handle:</strong>
-    <%= @student.github_handle %>
-  </li>
-
-</ul>
+<h1><%= @student.preferred_name || "#{@student.first_name} #{@student.last_name}" %></h1>
+<p class="uk-text-meta uk-margin-remove-bottom">
+  <a href="https://github.com/<%= @student.github_username %>">
+    <span class="uk-icon" uk-icon="icon: github"></span> <%= @student.github_username %>
+  </a>
+  |
+  <%= link cohort_name(@student.current_cohort), to: Routes.cohort_path(@conn, :show, @student.current_cohort) %>
+  |
+  <%= link "Edit Student Details", to: Routes.cohort_student_path(@conn, :edit, @student.current_cohort, @student), class: "uk-button-text uk-text-primary" %>
+</p>

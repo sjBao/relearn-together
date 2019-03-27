@@ -65,4 +65,9 @@ defmodule RelearnTogetherWeb.CohortController do
     |> put_flash(:info, "Cohort deleted successfully.")
     |> redirect(to: Routes.cohort_path(conn, :index))
   end
+
+  def fetch_batch_students(conn, %{"cohort_id" => cohort_id}) do
+    Cohorts.fetch_batch_students(cohort_id)
+    render(conn, "show.html", cohort: Cohorts.get_cohort!(cohort_id))
+  end
 end

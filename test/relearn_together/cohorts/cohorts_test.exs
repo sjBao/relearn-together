@@ -185,9 +185,9 @@ defmodule RelearnTogether.CohortsTest do
   describe "students" do
     alias RelearnTogether.Cohorts.Student
 
-    @valid_attrs %{first_name: "some first_name", github_handle: "some github_handle", last_name: "some last_name", preferred_name: "some preferred_name"}
-    @update_attrs %{first_name: "some updated first_name", github_handle: "some updated github_handle", last_name: "some updated last_name", preferred_name: "some updated preferred_name"}
-    @invalid_attrs %{first_name: nil, github_handle: nil, last_name: nil, preferred_name: nil}
+    @valid_attrs %{first_name: "some first_name", github_username: "some github_username", last_name: "some last_name", preferred_name: "some preferred_name"}
+    @update_attrs %{first_name: "some updated first_name", github_username: "some updated github_username", last_name: "some updated last_name", preferred_name: "some updated preferred_name"}
+    @invalid_attrs %{first_name: nil, github_username: nil, last_name: nil, preferred_name: nil}
 
     def student_fixture(attrs \\ %{}) do
       {:ok, student} =
@@ -211,7 +211,7 @@ defmodule RelearnTogether.CohortsTest do
     test "create_student/1 with valid data creates a student" do
       assert {:ok, %Student{} = student} = Cohorts.create_student(@valid_attrs)
       assert student.first_name == "some first_name"
-      assert student.github_handle == "some github_handle"
+      assert student.github_username == "some github_username"
       assert student.last_name == "some last_name"
       assert student.preferred_name == "some preferred_name"
     end
@@ -224,7 +224,7 @@ defmodule RelearnTogether.CohortsTest do
       student = student_fixture()
       assert {:ok, %Student{} = student} = Cohorts.update_student(student, @update_attrs)
       assert student.first_name == "some updated first_name"
-      assert student.github_handle == "some updated github_handle"
+      assert student.github_username == "some updated github_username"
       assert student.last_name == "some updated last_name"
       assert student.preferred_name == "some updated preferred_name"
     end

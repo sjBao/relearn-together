@@ -13,6 +13,7 @@ defmodule RelearnTogetherWeb.StudentController do
     changeset = Cohorts.change_student(%Student{})
     conn
     |> assign(:cohorts, Cohorts.list_sibling_cohorts(cohort_id))
+    |> assign(:cohort_id, cohort_id)
     |> render("new.html", changeset: changeset)
   end
 
@@ -33,10 +34,12 @@ defmodule RelearnTogetherWeb.StudentController do
     render(conn, "show.html", student: student)
   end
 
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"cohort_id" => cohort_id, "id" => id}) do
     student = Cohorts.get_student!(id)
     changeset = Cohorts.change_student(student)
-    render(conn, "edit.html", student: student, changeset: changeset)
+    conn
+    |> assign(:cohorts, Cohorts.list_sibling_cohorts(cohort_id))
+    |> render("edit.html", student: student, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "student" => student_params}) do

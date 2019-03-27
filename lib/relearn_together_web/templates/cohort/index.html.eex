@@ -4,7 +4,7 @@
   <%= for cohort <- @cohorts do %>
     <li class="uk-margin">
       <%= link cohort_name(cohort), to: Routes.cohort_path(@conn, :show, cohort), class: "uk-button uk-button-default uk-width-1-1 uk-text-left uk-text-primary uk-text-bold" %>
-      <span class="uk-text-meta uk-margin-left">Students: 11</span>
+      <span class="uk-text-meta uk-margin-left">Students: <%= cohort.students |> Enum.count %></span>
     </li>
   <% end %>
 </ul>
