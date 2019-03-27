@@ -113,8 +113,9 @@ defmodule RelearnTogether.Cohorts do
   """
   def list_cohorts do
     Cohort
+    |> order_by(desc: :start_date, asc: :campus_id)
     |> Repo.all
-    |> Repo.preload(:campus)
+    |> Repo.preload([:campus, :students])
   end
 
   def list_sibling_cohorts(cohort_id) do
