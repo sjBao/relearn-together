@@ -119,7 +119,7 @@ defmodule RelearnTogether.Cohorts do
   end
 
   def list_sibling_cohorts(cohort_id) do
-    %{campus: %{cohorts: cohorts}} = RelearnTogether.Cohorts.get_cohort!(11) 
+    %{campus: %{cohorts: cohorts}} = RelearnTogether.Cohorts.get_cohort!(cohort_id) 
     |> RelearnTogether.Repo.preload(campus: [cohorts: :campus])
     cohorts
   end
@@ -328,7 +328,7 @@ defmodule RelearnTogether.Cohorts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_student!(id), do: Repo.get!(Student, id)
+  def get_student!(id), do: Repo.get!(Student, id) |> Repo.preload(current_cohort: :campus)
 
   @doc """
   Creates a student.

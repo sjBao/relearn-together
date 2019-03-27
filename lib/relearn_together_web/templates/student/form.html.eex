@@ -34,7 +34,7 @@
   <div class="uk-margin">
     <%= label f, :current_cohort, class: "uk-form-label" %>
     <%= inputs_for f, :current_cohort, fn student_cohort -> %>
-      <%= select student_cohort, :id, Enum.map(@cohorts, &({cohort_name(&1), &1.id})), class: "uk-select", placeholder: "Preferred name" %>
+      <%= select student_cohort, :id, Enum.map(@cohorts, &({cohort_name(&1), &1.id})), class: "uk-select" %>
     <% end %>
     <%= error_tag f, :preferred_name %>
   </div>
