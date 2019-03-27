@@ -1,6 +1,7 @@
 defmodule RelearnTogetherWeb.ActivityController do
   use RelearnTogetherWeb, :controller
 
+  alias RelearnTogether.Cohorts
   alias RelearnTogether.Groupings
   alias RelearnTogether.Groupings.Activity
 
@@ -11,7 +12,10 @@ defmodule RelearnTogetherWeb.ActivityController do
 
   def new(conn, _params) do
     changeset = Groupings.change_activity(%Activity{})
-    render(conn, "new.html", changeset: changeset)
+    conn
+    |> assign(:labels, Groupings.list_labels)
+    |> assign(:mods, Cohorts.list_mods)
+    |> render("new.html", changeset: changeset)
   end
 
   def create(conn, %{"activity" => activity_params}) do
