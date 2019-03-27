@@ -13,7 +13,7 @@
       <div class="students-list-card">
         <img src="https://avatars.slack-edge.com/2017-12-08/283789275363_7df8663dcb1ea65f2bf3_192.jpg" alt="">
         <div class="uk-padding-small uk-padding-remove-bottom">
-          <%= link student.preferred_name, to: Routes.student_path(@conn, :show, student) %>
+          <%= link student.preferred_name || "#{student.first_name} #{student.last_name}", to: Routes.student_path(@conn, :show, student) %>
         </div>
       </div>
     <% end %>

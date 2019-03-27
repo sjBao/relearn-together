@@ -19,7 +19,7 @@
 
   <li>
     <strong>Github handle:</strong>
-    <%= @student.github_handle %>
+    <%= @student.github_username %>
   </li>
 
 </ul>

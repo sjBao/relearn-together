@@ -5,7 +5,7 @@ defmodule RelearnTogether.Cohorts do
 
   import Ecto.Query, warn: false
   alias RelearnTogether.Repo
-
+  alias RelearnTogether.LearnAdapter
   alias RelearnTogether.Cohorts.{Campus, Cohort, Mod, Student}
 
   @doc """
@@ -394,5 +394,21 @@ defmodule RelearnTogether.Cohorts do
   """
   def change_student(%Student{} = student) do
     Student.changeset(student, %{})
+  end
+
+  def fetch_batch_students(cohort_id) do
+    %Cohort{batch_number: batch_number} = get_cohort!(cohort_id)
+    response = LearnAdapter.fetch_batch_students(batch_number)
+    case LearnAdapter.handle_response(response) do
+      {:ok, %{"users" => users}} ->
+        users 
+        |> LearnAdapter.filter_invalid_students
+        |> Enum.each( fn student ->
+            !Repo.get_by(Student, first_name: student["first_name"], github_username: student["github_username"]) &&
+            student |> Map.merge(%{"current_cohort" => %{"id" => cohort_id} }) |> create_student
+        end)
+      {:error, error} -> 
+        {:error, error}
+    end
   end
 end

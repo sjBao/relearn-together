@@ -6,7 +6,7 @@ defmodule RelearnTogether.Repo.Migrations.CreateStudents do
       add :first_name, :string
       add :last_name, :string
       add :preferred_name, :string
-      add :github_handle, :string
+      add :github_username, :string
       add :current_cohort_id, references(:cohorts, on_delete: :nothing)
 
       timestamps()
