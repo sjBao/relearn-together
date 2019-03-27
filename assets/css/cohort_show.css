@@ -13,11 +13,16 @@
   padding: 15px;
   border: 1px solid #CCC;
   border-radius: 5px;
-  background: #FFF
+  background: #FFF;
+  transition: transform 0.3s;
 }
 
-.activities-container {
-  padding: 10px;
+.students-list-card:hover {
+  transform: scale(1.03);
+}
+
+.activities-container h3 {
+  text-align: center;
 }
 
 .activities-container li {
@@ -26,4 +31,8 @@
 
 .activities-container li:hover {
   transform: scale(1.03);
+}
+
+.activities-list {
+  padding: 10px 20px;
 }
