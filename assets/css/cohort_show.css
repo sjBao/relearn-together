@@ -36,3 +36,24 @@
 .activities-list {
   padding: 10px 20px;
 }
+
+#ungrouped-students {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.sortable-student-card {
+  cursor: all-scroll;
+  margin: 5px !important;
+  padding: 7px;
+  background-color: rgb(200, 200, 200);
+  transition: transform 0.3s;
+}
+
+.sortable-student-card:hover {
+  transform: scale(1.07, 1.03);
+}
+
+.groupings {
+  border: 2px dashed rgb(200, 200, 200);
+}

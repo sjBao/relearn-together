@@ -12,7 +12,7 @@
     <%= for activity <- @cohort.activities do %>
       <li class="uk-card uk-card-default">
         <div class="uk-padding-small">
-          <%= link activity.name || "<Unamed Activity>", to: Routes.cohort_activity_path(@conn, :show, @cohort, activity) %>
+          <%= link activity.name || "<Unamed Activity>", to: Routes.cohort_activity_path(@conn, :edit, @cohort, activity) %>
         </div>
       </li>
     <% end %>

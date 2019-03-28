@@ -44,7 +44,6 @@ defmodule RelearnTogetherWeb.ActivityController do
     activity = Groupings.get_activity!(id)
     changeset = Groupings.change_activity(activity)
     %{students: students} = Cohorts.get_cohort!(cohort_id) |> Repo.preload(:students)
-    IO.inspect conn
     conn
     |> assign(:labels, Groupings.list_labels)
     |> assign(:mods, Cohorts.list_mods)
