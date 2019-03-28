@@ -42,6 +42,13 @@
       </div>
     </div>
 
+    <div class="group-card uk-width-1-3">
+      <h4>new group +</h4>
+      <div class="new groupings uk-text-center uk-padding-small">
+        <span uk-icon="icon: plus; ratio: 2"></span>
+      </div>
+    </div>
+
     <%# <div class="group-card uk-width-1-3">
         <h4>Group 1</h4>
         <div uk-sortable="group: sortable-group" class="groupings">

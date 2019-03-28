@@ -57,3 +57,22 @@
 .groupings {
   border: 2px dashed rgb(200, 200, 200);
 }
+
+.new.groupings {
+  cursor: pointer;
+  border: 2px dashed rgb(230, 230, 230);
+  transition: 0.3s;
+}
+
+.new.groupings:hover {
+  border: 2px dashed rgb(150, 150, 150);
+}
+
+.new.groupings:hover span {
+  color: rgb(150, 150, 150);
+}
+
+.new.groupings span {
+  color: rgb(200, 200, 200);
+  transition: 0.4s;
+}
