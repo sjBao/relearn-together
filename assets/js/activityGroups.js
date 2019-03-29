@@ -1,7 +1,14 @@
+import uikitjs from 'uikit';
 export const Groupings = {
   run: () => {
     const newGroupButton = document.querySelector('#new-activity-group');
     const groupsContainer = document.querySelector('#group-maker-container');
+    uikitjs.util.on('#group-maker-container', 'added', (item, two, three) => {
+      console.log(item);
+    })
+    uikitjs.util.on('#group-maker-container', 'removed', (item, two, three) => {
+      console.log(item);
+    })
     newGroupButton.addEventListener('click', event => {
       groupsContainer.lastElementChild.before(Group().render());
     })
