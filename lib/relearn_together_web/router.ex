@@ -11,6 +11,15 @@ defmodule RelearnTogetherWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug CORSPlug, origin: ["http://localhost:8000"]
+  end
+
+  scope "/api", RelearnTogetherWeb do
+    pipe_through :api
+    
+    resources "/activities", ActivityController do
+      resources "/groups", GroupController, only: [:create]
+    end
   end
 
   scope "/", RelearnTogetherWeb do
@@ -21,10 +30,6 @@ defmodule RelearnTogetherWeb.Router do
     resources "/cohorts", CohortController do
       resources "/students", StudentController
       resources "/activities", ActivityController
-    end
-
-    resources "/activities", ActivityController do
-      resources "/groups", GroupController, only: [:create]
     end
 
     resources "students", StudentController, only: [:show]
