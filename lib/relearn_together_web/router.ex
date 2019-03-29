@@ -14,10 +14,10 @@ defmodule RelearnTogetherWeb.Router do
     plug CORSPlug, origin: ["http://localhost:8000"]
   end
 
-  scope "/api", RelearnTogetherWeb do
+  scope "/api", RelearnTogetherWeb, as: :api do
     pipe_through :api
-    
-    resources "/activities", ActivityController do
+
+    resources "/activities", ActivityController, only: [] do
       resources "/groups", GroupController, only: [:create]
     end
   end
@@ -26,7 +26,7 @@ defmodule RelearnTogetherWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/cohorts", CohortController
+    # resources "/cohorts", CohortController
     resources "/cohorts", CohortController do
       resources "/students", StudentController
       resources "/activities", ActivityController
