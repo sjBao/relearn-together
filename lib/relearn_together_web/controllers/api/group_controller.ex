@@ -1,9 +1,12 @@
 defmodule RelearnTogetherWeb.Api.GroupController do
   use RelearnTogetherWeb, :controller
 
-  def create(conn, params) do
-    IO.inspect conn
+  alias RelearnTogether.Groupings
+  alias RelearnTogether.Cohorts
 
+  def create(conn, params) do
+    IO.inspect params
+    IO.inspect "=============="
     render conn
   end
 end
