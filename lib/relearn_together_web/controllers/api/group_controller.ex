@@ -3,9 +3,12 @@ defmodule RelearnTogetherWeb.Api.GroupController do
 
   alias RelearnTogether.Groupings
   alias RelearnTogether.Cohorts
+  alias RelearnTogether.Repo
 
   def create(conn, params) do
-    IO.inspect params
+    activity = Groupings.get_activity!(params["activity_id"]) |> Repo.preload(:groups)
+    changeset = Groupings.create_group
+    IO.inspect changeset
     IO.inspect "=============="
     render conn
   end

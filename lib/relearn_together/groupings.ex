@@ -6,7 +6,7 @@ defmodule RelearnTogether.Groupings do
   import Ecto.Query, warn: false
   alias RelearnTogether.Repo
 
-  alias RelearnTogether.Groupings.Label
+  alias RelearnTogether.Groupings.{Label, Group, GroupStudent, Activity}
 
   @doc """
   Returns the list of labels.
@@ -102,8 +102,6 @@ defmodule RelearnTogether.Groupings do
     Label.changeset(label, %{})
   end
 
-  alias RelearnTogether.Groupings.Activity
-
   @doc """
   Returns the list of activities.
 
@@ -198,8 +196,6 @@ defmodule RelearnTogether.Groupings do
     Activity.changeset(activity, %{})
   end
 
-  alias RelearnTogether.Groupings.Group
-
   @doc """
   Returns the list of groups.
 
@@ -293,8 +289,6 @@ defmodule RelearnTogether.Groupings do
   def change_group(%Group{} = group) do
     Group.changeset(group, %{})
   end
-
-  alias RelearnTogether.Groupings.GroupStudent
 
   @doc """
   Returns the list of group_students.

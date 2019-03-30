@@ -1,9 +1,12 @@
 defmodule RelearnTogether.Groupings.Group do
   use Ecto.Schema
   import Ecto.Changeset
+  alias RelearnTogether.Groupings.{Activity, GroupStudent, Student}
 
   schema "groups" do
-    field :activity_id, :id
+    belongs_to :activity, Activity
+    has_many :group_students, GroupStudent
+    has_many :students, through: [:group_students, :student]
 
     timestamps()
   end
