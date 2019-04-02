@@ -1,53 +1,76 @@
 import uikitjs from 'uikit';
 export const Groupings = {
   run: () => {
-    const newGroupButton = document.querySelector('#new-activity-group');
-    const groupsContainer = document.querySelector('#group-maker-container');
+    const groupsContainer = GroupsContainer(location.pathname.split('/')[4]);
+    groupsContainer.initalize()
+
     uikitjs.util.on('#group-maker-container', 'added', (item, two, three) => {
       console.log(item);
     })
     uikitjs.util.on('#group-maker-container', 'removed', (item, two, three) => {
       console.log(item);
     })
-    newGroupButton.addEventListener('click', event => {
-      let activity_id = location.pathname.split('/')[4]
-      fetch(`/api/activities/${activity_id}/groups`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ activity_id })
-      })
-        .then(response => {
-          console.log(response)
-          return response.json()
-        })
-        .then(data => {
-          console.log(data)
-          groupsContainer.lastElementChild.before(Group().render());
-        })
+  }
+}
 
-    })
+const GroupsContainer = (activity_id) => {
+  const groupsContainer = document.querySelector('#group-maker-container');
+  const newGroupButton = document.querySelector('#new-activity-group');
+  const groupsAdapter = GroupsAdapter(activity_id);
+  let groupNumber = 1;
+
+  function initalize() {
+    groupsAdapter.fetchGroups().then(groups => {
+      groups.forEach(renderGroup);
+    });
+    newGroupButton.addEventListener('click', createGroup);
+  }
+
+  function createGroup() {
+    groupsAdapter.createGroup().then(renderGroup)
+  }
+
+  function renderGroup(group) {
+    groupsContainer.lastElementChild.before(GroupCard(group, groupNumber++));
+  }
+
+  return {
+    initalize
+  }
+
+
+}
+
+const GroupsAdapter = (activity_id) => {
+  const url = `/api/activities/${activity_id}/groups`;
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+  
+  const fetchGroups = () => fetch(url).then(response => response.json())
+  const createGroup = () => fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({activity_id})
+  }).then(response => response.json())
+
+  return {
+    fetchGroups, createGroup
   }
 }
 
 
-const Group = () => {
+const GroupCard = (group, number) => {
   const node = document.createElement('template');
-  const render = () => {
-    node.innerHTML = `
-<div class="group-card uk-width-1-3">
-  <h4>Group 1</h4>
+  node.innerHTML = `
+<div data-group-id="${group.id}" class="group-card uk-width-1-3">
+  <h4>Group ${number}</h4>
   <div uk-sortable="group: sortable-group" class="groupings">
   </div>
 </div>`;
-    return node.content;
-  }
 
-  return {
-    render
-  }
+  return node.content.firstElementChild;
 }
 
 const Student = () => {
