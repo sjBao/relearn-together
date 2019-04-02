@@ -16,8 +16,17 @@ defmodule RelearnTogetherWeb.Api.GroupController do
       nil ->
         render(conn, "error.json")
       activity ->
-        {:ok, changeset} = Groupings.create_group(%{activity: activity})
-        render(conn, "group.json", group: changeset)
+        {:ok, group} = Groupings.create_group(%{activity: activity})
+        render(conn, "group.json", group: group)
+    end
+  end
+
+  def delete(conn, %{"id" => group_id}) do
+    case group_id |> Groupings.get_group! |> Groupings.delete_group do
+      {:ok, group} ->
+        render(conn, "group.json", group: group)
+      _ ->
+        render(conn, "error.json")
     end
   end
 end
