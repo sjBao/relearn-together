@@ -10,16 +10,14 @@ export const Groupings = {
       console.log(item);
     })
     newGroupButton.addEventListener('click', event => {
-      console.log(location.pathname.split('/')[4])
-      fetch("/api/activities/:activity_id/groups", {
+      let activity_id = location.pathname.split('/')[4]
+      fetch(`/api/activities/${activity_id}/groups`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          activity_id: 17
-        })
+        body: JSON.stringify({ activity_id })
       })
         .then(response => {
           console.log(response)

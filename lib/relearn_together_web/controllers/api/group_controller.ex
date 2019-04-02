@@ -6,12 +6,12 @@ defmodule RelearnTogetherWeb.Api.GroupController do
   alias RelearnTogether.Repo
 
   def create(conn, %{"activity_id" => activity_id}) do
-    case Groupings.get_activity(17) do
+    case Groupings.get_activity(activity_id) do
       nil ->
         render(conn, "error.json")
       activity ->
         {:ok, changeset} = Groupings.create_group(%{activity: activity})
-        render(conn, "create.json", changeset: changeset)
+        render(conn, "group.json", group: changeset)
     end
   end
 end
