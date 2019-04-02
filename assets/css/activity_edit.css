@@ -1,0 +1,12 @@
+.delete-group-button {
+  cursor: pointer;
+  position: relative;
+  top: -2px;
+  color: rgba(51, 51, 51, 0.6);
+  transition: 0.3s;
+}
+
+.delete-group-button:hover {
+  color: rgba(51, 51, 51, 1);
+  transform: scale(1.03);
+}

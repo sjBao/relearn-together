@@ -3,13 +3,6 @@ export const Groupings = {
   run: () => {
     const groupsContainer = GroupsContainer(location.pathname.split('/')[4]);
     groupsContainer.initalize()
-
-    uikitjs.util.on('#group-maker-container', 'added', (item, two, three) => {
-      console.log(item);
-    })
-    uikitjs.util.on('#group-maker-container', 'removed', (item, two, three) => {
-      console.log(item);
-    })
   }
 }
 
@@ -23,7 +16,19 @@ const GroupsContainer = (activity_id) => {
     groupsAdapter.fetchGroups().then(groups => {
       groups.forEach(renderGroup);
     });
+    groupsContainer.addEventListener
     newGroupButton.addEventListener('click', createGroup);
+    uikitjs.util.on('#group-maker-container', 'added', (event, two, three) => {
+      console.log(event.target);
+    })
+    uikitjs.util.on('#group-maker-container', 'removed', (event, two, three) => {
+      console.log(event.target);
+    })
+    uikitjs.util.on('#group-maker-container', 'click', event => {
+      if (event.target.closest('.delete-group-button')) {
+        deleteGroup(event.target.closest('.group-card'))
+      }
+    })
   }
 
   function createGroup() {
@@ -33,6 +38,17 @@ const GroupsContainer = (activity_id) => {
   function renderGroup(group) {
     groupsContainer.lastElementChild.before(GroupCard(group, groupNumber++));
   }
+
+  function deleteGroup(groupNode) {
+    const groupId = groupNode.getAttribute('data-group-id');
+    groupsAdapter.deleteGroup(groupId).then(unmountGroup)
+  }
+
+  function unmountGroup(group) {
+    groupsContainer.querySelector(`[data-group-id="${group.id}"]`).remove();
+    groupNumber--;
+  }
+
 
   return {
     initalize
@@ -49,14 +65,19 @@ const GroupsAdapter = (activity_id) => {
   };
   
   const fetchGroups = () => fetch(url).then(response => response.json())
+
   const createGroup = () => fetch(url, {
     method: 'POST',
     headers,
     body: JSON.stringify({activity_id})
   }).then(response => response.json())
 
+  const deleteGroup = (groupId) => fetch(url + `/${groupId}`, {
+    method: 'DELETE'
+  }).then(response => response.json())
+
   return {
-    fetchGroups, createGroup
+    fetchGroups, createGroup, deleteGroup
   }
 }
 
@@ -65,7 +86,7 @@ const GroupCard = (group, number) => {
   const node = document.createElement('template');
   node.innerHTML = `
 <div data-group-id="${group.id}" class="group-card uk-width-1-3">
-  <h4>Group ${number}</h4>
+  <h4>Group ${number} <span class="uk-icon delete-group-button" uk-icon="icon: trash"></span></h4>
   <div uk-sortable="group: sortable-group" class="groupings">
   </div>
 </div>`;
