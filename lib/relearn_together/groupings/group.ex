@@ -14,7 +14,8 @@ defmodule RelearnTogether.Groupings.Group do
   @doc false
   def changeset(group, attrs) do
     group
-    |> cast(attrs, [])
+    |> cast(attrs, [:activity_id])
+    |> change(attrs)
     |> validate_required([])
   end
 end

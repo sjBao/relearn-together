@@ -36,12 +36,12 @@ defmodule RelearnTogetherWeb.ActivityController do
   end
 
   def show(conn, %{"id" => id}) do
-    activity = Groupings.get_activity!(id)
+    activity = Groupings.get_activity(id)
     render(conn, "show.html", activity: activity)
   end
 
   def edit(conn, %{"cohort_id" => cohort_id, "id" => id}) do
-    activity = Groupings.get_activity!(id)
+    activity = Groupings.get_activity(id)
     changeset = Groupings.change_activity(activity)
     %{students: students} = Cohorts.get_cohort!(cohort_id) |> Repo.preload(:students)
     conn
@@ -52,7 +52,7 @@ defmodule RelearnTogetherWeb.ActivityController do
   end
 
   def update(conn, %{"id" => id, "activity" => activity_params}) do
-    activity = Groupings.get_activity!(id)
+    activity = Groupings.get_activity(id)
 
     case Groupings.update_activity(activity, activity_params) do
       {:ok, activity} ->
@@ -66,7 +66,7 @@ defmodule RelearnTogetherWeb.ActivityController do
   end
 
   def delete(conn, %{"id" => id}) do
-    activity = Groupings.get_activity!(id)
+    activity = Groupings.get_activity(id)
     {:ok, _activity} = Groupings.delete_activity(activity)
 
     conn

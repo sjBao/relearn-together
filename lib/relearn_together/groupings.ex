@@ -129,7 +129,7 @@ defmodule RelearnTogether.Groupings do
       ** (Ecto.NoResultsError)
 
   """
-  def get_activity!(id), do: Repo.get!(Activity, id)
+  def get_activity(id), do: Repo.get(Activity, id)
 
   @doc """
   Creates a activity.

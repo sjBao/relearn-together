@@ -5,11 +5,13 @@ defmodule RelearnTogetherWeb.Api.GroupController do
   alias RelearnTogether.Cohorts
   alias RelearnTogether.Repo
 
-  def create(conn, params) do
-    activity = Groupings.get_activity!(params["activity_id"]) |> Repo.preload(:groups)
-    changeset = Groupings.create_group
-    IO.inspect changeset
-    IO.inspect "=============="
-    render conn
+  def create(conn, %{"activity_id" => activity_id}) do
+    case Groupings.get_activity(17) do
+      nil ->
+        render(conn, "error.json")
+      activity ->
+        {:ok, changeset} = Groupings.create_group(%{activity: activity})
+        render(conn, "create.json", changeset: changeset)
+    end
   end
 end
