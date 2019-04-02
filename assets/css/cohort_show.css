@@ -12,4 +12,67 @@
 .students-list-card {
   padding: 15px;
   border: 1px solid #CCC;
+  border-radius: 5px;
+  background: #FFF;
+  transition: transform 0.3s;
+}
+
+.students-list-card:hover {
+  transform: scale(1.03);
+}
+
+.activities-container h3 {
+  text-align: center;
+}
+
+.activities-container li {
+  transition: 0.2s
+}
+
+.activities-container li:hover {
+  transform: scale(1.03);
+}
+
+.activities-list {
+  padding: 10px 20px;
+}
+
+#ungrouped-students {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.sortable-student-card {
+  cursor: all-scroll;
+  margin: 5px !important;
+  padding: 7px;
+  background-color: rgb(200, 200, 200);
+  transition: transform 0.3s;
+}
+
+.sortable-student-card:hover {
+  transform: scale(1.07, 1.03);
+}
+
+.groupings {
+  border: 2px dashed rgb(200, 200, 200);
+}
+
+.new.groupings {
+  cursor: pointer;
+  border: 2px dashed rgb(230, 230, 230);
+  transition: 0.3s;
+}
+
+.new.groupings:hover {
+  border: 2px dashed rgb(150, 150, 150);
+}
+
+.new.groupings:hover span {
+  color: rgb(150, 150, 150);
+}
+
+.new.groupings span {
+  color: rgb(200, 200, 200);
+  transition: 0.4s;
 }

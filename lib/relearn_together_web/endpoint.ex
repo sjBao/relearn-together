@@ -42,5 +42,6 @@ defmodule RelearnTogetherWeb.Endpoint do
     key: "_relearn_together_key",
     signing_salt: "w6RlgeZ/"
 
+  plug CORSPlug
   plug RelearnTogetherWeb.Router
 end

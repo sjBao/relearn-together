@@ -246,4 +246,122 @@ defmodule RelearnTogether.CohortsTest do
       assert %Ecto.Changeset{} = Cohorts.change_student(student)
     end
   end
+
+  describe "labels" do
+    alias RelearnTogether.Cohorts.Label
+
+    @valid_attrs %{name: "some name", priority: 42}
+    @update_attrs %{name: "some updated name", priority: 43}
+    @invalid_attrs %{name: nil, priority: nil}
+
+    def label_fixture(attrs \\ %{}) do
+      {:ok, label} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Cohorts.create_label()
+
+      label
+    end
+
+    test "list_labels/0 returns all labels" do
+      label = label_fixture()
+      assert Cohorts.list_labels() == [label]
+    end
+
+    test "get_label!/1 returns the label with given id" do
+      label = label_fixture()
+      assert Cohorts.get_label!(label.id) == label
+    end
+
+    test "create_label/1 with valid data creates a label" do
+      assert {:ok, %Label{} = label} = Cohorts.create_label(@valid_attrs)
+      assert label.name == "some name"
+      assert label.priority == 42
+    end
+
+    test "create_label/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Cohorts.create_label(@invalid_attrs)
+    end
+
+    test "update_label/2 with valid data updates the label" do
+      label = label_fixture()
+      assert {:ok, %Label{} = label} = Cohorts.update_label(label, @update_attrs)
+      assert label.name == "some updated name"
+      assert label.priority == 43
+    end
+
+    test "update_label/2 with invalid data returns error changeset" do
+      label = label_fixture()
+      assert {:error, %Ecto.Changeset{}} = Cohorts.update_label(label, @invalid_attrs)
+      assert label == Cohorts.get_label!(label.id)
+    end
+
+    test "delete_label/1 deletes the label" do
+      label = label_fixture()
+      assert {:ok, %Label{}} = Cohorts.delete_label(label)
+      assert_raise Ecto.NoResultsError, fn -> Cohorts.get_label!(label.id) end
+    end
+
+    test "change_label/1 returns a label changeset" do
+      label = label_fixture()
+      assert %Ecto.Changeset{} = Cohorts.change_label(label)
+    end
+  end
+
+  describe "activities" do
+    alias RelearnTogether.Cohorts.Activity
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def activity_fixture(attrs \\ %{}) do
+      {:ok, activity} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Cohorts.create_activity()
+
+      activity
+    end
+
+    test "list_activities/0 returns all activities" do
+      activity = activity_fixture()
+      assert Cohorts.list_activities() == [activity]
+    end
+
+    test "get_activity!/1 returns the activity with given id" do
+      activity = activity_fixture()
+      assert Cohorts.get_activity!(activity.id) == activity
+    end
+
+    test "create_activity/1 with valid data creates a activity" do
+      assert {:ok, %Activity{} = activity} = Cohorts.create_activity(@valid_attrs)
+    end
+
+    test "create_activity/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Cohorts.create_activity(@invalid_attrs)
+    end
+
+    test "update_activity/2 with valid data updates the activity" do
+      activity = activity_fixture()
+      assert {:ok, %Activity{} = activity} = Cohorts.update_activity(activity, @update_attrs)
+    end
+
+    test "update_activity/2 with invalid data returns error changeset" do
+      activity = activity_fixture()
+      assert {:error, %Ecto.Changeset{}} = Cohorts.update_activity(activity, @invalid_attrs)
+      assert activity == Cohorts.get_activity!(activity.id)
+    end
+
+    test "delete_activity/1 deletes the activity" do
+      activity = activity_fixture()
+      assert {:ok, %Activity{}} = Cohorts.delete_activity(activity)
+      assert_raise Ecto.NoResultsError, fn -> Cohorts.get_activity!(activity.id) end
+    end
+
+    test "change_activity/1 returns a activity changeset" do
+      activity = activity_fixture()
+      assert %Ecto.Changeset{} = Cohorts.change_activity(activity)
+    end
+  end
 end

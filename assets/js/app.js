@@ -8,6 +8,11 @@ import css from "../css/app.css";
 
 uikitjs.use(Icons);
 
+if (window.location.pathname.match(/activities\/\d+\/edit/)) {
+  const activityGroups = require("./activityGroups");
+  activityGroups.Groupings.run();
+}
+
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
@@ -20,3 +25,6 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
+
+document.addEventListener('DOMContentLoaded', () => {
+})
