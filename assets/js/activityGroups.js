@@ -8,7 +8,6 @@ export const Groupings = {
 
 const GroupsContainer = (activity_id) => {
   const groupsContainer = document.querySelector('#group-maker-container');
-  const newGroupButton = document.querySelector('#new-activity-group');
   const groupsAdapter = GroupsAdapter(activity_id);
   let groupNumber = 1;
 
@@ -16,18 +15,22 @@ const GroupsContainer = (activity_id) => {
     groupsAdapter.fetchGroups().then(groups => {
       groups.forEach(renderGroup);
     });
-    groupsContainer.addEventListener
-    newGroupButton.addEventListener('click', createGroup);
-    uikitjs.util.on('#group-maker-container', 'added', (event, two, three) => {
-      console.log(event.target);
-    })
-    uikitjs.util.on('#group-maker-container', 'removed', (event, two, three) => {
-      console.log(event.target);
-    })
+    uikitjs.util.on('#new-activity-group', 'click', createGroup);
+
     uikitjs.util.on('#group-maker-container', 'click', event => {
       if (event.target.closest('.delete-group-button')) {
         deleteGroup(event.target.closest('.group-card'))
       }
+    })
+
+
+    uikitjs.util.on('#group-maker-container', 'added', event => {
+      console.log(event.target);
+    })
+
+
+    uikitjs.util.on('#group-maker-container', 'removed', event => {
+      console.log(event.target);
     })
   }
 
@@ -70,11 +73,17 @@ const GroupsAdapter = (activity_id) => {
     method: 'POST',
     headers,
     body: JSON.stringify({activity_id})
-  }).then(response => response.json())
+  }).then(response => response.json());
 
   const deleteGroup = (groupId) => fetch(url + `/${groupId}`, {
     method: 'DELETE'
-  }).then(response => response.json())
+  }).then(response => response.json());
+
+  const updateGroup = (groupId, payload) => fetch(url + `/${groupId}`, {
+    method: 'PATCH',
+    headers,
+    body: JSON.stringify(payload)
+  }).then(responses => response.json());
 
   return {
     fetchGroups, createGroup, deleteGroup

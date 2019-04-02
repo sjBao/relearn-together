@@ -33,10 +33,8 @@
       <h4>Ungrouped Students</h4>
       <div id="ungrouped-students" uk-sortable="group: sortable-group" class="groupings">
         <%= for student <- @students do %>
-        <div class="sortable-student-card">
-            <div class="">
-              <%= student.preferred_name || "#{student.first_name} #{student.last_name}" %>
-            </div>
+        <div data-student-id="<%= student.id %>" class="sortable-student-card">
+            <div class=""><%= student.preferred_name || "#{student.first_name} #{student.last_name}" %></div>
         </div>
         <% end %>
       </div>
@@ -48,24 +46,6 @@
         <span uk-icon="icon: plus; ratio: 2"></span>
       </div>
     </div>
-
-    <%# <div class="group-card uk-width-1-3">
-        <h4>Group 1</h4>
-        <div uk-sortable="group: sortable-group" class="groupings">
-            <div class="sortable-student-card">
-                <div class="">Item 1</div>
-            </div>
-            <div class="sortable-student-card">
-                <div class="">Item 2</div>
-            </div>
-            <div class="sortable-student-card">
-                <div class="">Item 3</div>
-            </div>
-            <div class="sortable-student-card">
-                <div class="">Item 4</div>
-            </div>
-        </div>
-    </div> %>
 </div>
   
   <div class="uk-margin">
