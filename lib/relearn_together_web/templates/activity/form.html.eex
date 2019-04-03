@@ -40,6 +40,14 @@
       </div>
     </div>
 
+    <%= for {group, idx} <- @activity.groups |> Enum.with_index do %>
+      <div data-group-id="<%= group.id %>" class="group-card uk-width-1-3">
+        <h4>Group <%= idx + 1 %> <span class="uk-icon delete-group-button" uk-icon="icon: trash"></span></h4>
+        <div uk-sortable="group: sortable-group" class="groupings">
+        </div>  
+      </div>
+    <% end %>
+
     <div class="group-card uk-width-1-3">
       <h4>new group +</h4>
       <div id="new-activity-group" class="new groupings uk-text-center uk-padding-small">

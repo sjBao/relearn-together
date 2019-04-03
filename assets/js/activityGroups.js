@@ -12,9 +12,9 @@ const GroupsContainer = (activity_id) => {
   let groupNumber = 1;
 
   function initalize() {
-    groupsAdapter.fetchGroups().then(groups => {
-      groups.forEach(renderGroup);
-    });
+    // groupsAdapter.fetchGroups().then(groups => {
+    //   groups.forEach(renderGroup);
+    // });
     uikitjs.util.on('#new-activity-group', 'click', createGroup);
 
     uikitjs.util.on('#group-maker-container', 'click', event => {
@@ -24,12 +24,7 @@ const GroupsContainer = (activity_id) => {
     })
 
     uikitjs.util.on('#group-maker-container', 'added', event => {
-      const groupCard = event.target.closest('.group-card');
-      if (groupCard) {
-        const students = [...event.target.children].map(parseStudentNode);
-        const groupId = groupCard.getAttribute('data-group-id');
-        groupsAdapter.updateGroup(groupId, { students })
-      }
+
     })
 
 
@@ -92,7 +87,7 @@ const GroupsAdapter = (activity_id) => {
     method: 'PATCH',
     headers,
     body: JSON.stringify(payload)
-  }).then(responses => response.json());
+  }).then(response => response.json());
 
   return {
     fetchGroups, createGroup, deleteGroup, updateGroup

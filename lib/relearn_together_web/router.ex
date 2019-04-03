@@ -22,7 +22,7 @@ defmodule RelearnTogetherWeb.Router do
     end
 
     resources "/groups", Api.GroupController, only: [] do
-      resources "/group_students", Api.GroupStudentController, only: [:createa]
+      resources "/group_students", Api.GroupStudentController, only: [:create]
     end
   end
 
