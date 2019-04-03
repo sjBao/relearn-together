@@ -6,7 +6,6 @@ defmodule RelearnTogetherWeb.Api.GroupController do
   alias RelearnTogether.Repo
 
   def index(conn, %{"activity_id" => activity_id}) do
-    IO.inspect activity_id
     %{groups: groups} = Groupings.get_activity(activity_id) |> Repo.preload(:groups)
     render(conn, "index.json", groups: groups)
   end
@@ -19,6 +18,12 @@ defmodule RelearnTogetherWeb.Api.GroupController do
         {:ok, group} = Groupings.create_group(%{activity: activity})
         render(conn, "group.json", group: group)
     end
+  end
+
+  def update(conn, params) do
+    # create group_students between groups and students
+    IO.inspect params
+    render(conn)
   end
 
   def delete(conn, %{"id" => group_id}) do

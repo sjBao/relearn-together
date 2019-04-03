@@ -18,7 +18,7 @@ defmodule RelearnTogetherWeb.Router do
     pipe_through :api
 
     resources "/activities", ActivityController, only: [] do
-      resources "/groups", Api.GroupController, only: [:index, :create, :delete]
+      resources "/groups", Api.GroupController, only: [:index, :create, :delete, :update]
     end
   end
 

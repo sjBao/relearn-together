@@ -23,15 +23,19 @@ const GroupsContainer = (activity_id) => {
       }
     })
 
-
     uikitjs.util.on('#group-maker-container', 'added', event => {
-      console.log(event.target);
+      const groupCard = event.target.closest('.group-card');
+      if (groupCard) {
+        const students = [...event.target.children].map(parseStudentNode);
+        const groupId = groupCard.getAttribute('data-group-id');
+        groupsAdapter.updateGroup(groupId, { students })
+      }
     })
 
 
-    uikitjs.util.on('#group-maker-container', 'removed', event => {
-      console.log(event.target);
-    })
+    // uikitjs.util.on('#group-maker-container', 'removed', event => {
+    //   console.log(event.target);
+    // })
   }
 
   function createGroup() {
@@ -52,10 +56,15 @@ const GroupsContainer = (activity_id) => {
     groupNumber--;
   }
 
-
-  return {
-    initalize
+  function parseStudentNode(student) {
+    return ({
+      id: student.getAttribute('data-student-id'),
+      name: student.querySelector('.student-name').innerText
+    })
   }
+
+
+  return { initalize }
 
 
 }
@@ -66,13 +75,13 @@ const GroupsAdapter = (activity_id) => {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   };
-  
+
   const fetchGroups = () => fetch(url).then(response => response.json())
 
   const createGroup = () => fetch(url, {
     method: 'POST',
     headers,
-    body: JSON.stringify({activity_id})
+    body: JSON.stringify({ activity_id })
   }).then(response => response.json());
 
   const deleteGroup = (groupId) => fetch(url + `/${groupId}`, {
@@ -86,7 +95,7 @@ const GroupsAdapter = (activity_id) => {
   }).then(responses => response.json());
 
   return {
-    fetchGroups, createGroup, deleteGroup
+    fetchGroups, createGroup, deleteGroup, updateGroup
   }
 }
 

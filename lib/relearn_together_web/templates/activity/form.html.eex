@@ -34,7 +34,7 @@
       <div id="ungrouped-students" uk-sortable="group: sortable-group" class="groupings">
         <%= for student <- @students do %>
         <div data-student-id="<%= student.id %>" class="sortable-student-card">
-            <div class=""><%= student.preferred_name || "#{student.first_name} #{student.last_name}" %></div>
+            <div class="student-name"><%= student.preferred_name || "#{student.first_name} #{student.last_name}" %></div>
         </div>
         <% end %>
       </div>
