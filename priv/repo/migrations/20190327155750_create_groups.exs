@@ -3,7 +3,7 @@ defmodule RelearnTogether.Repo.Migrations.CreateGroups do
 
   def change do
     create table(:groups) do
-      add :activity_id, references(:activities, on_delete: :nothing)
+      add :activity_id, references(:activities, on_delete: :delete_all)
 
       timestamps()
     end

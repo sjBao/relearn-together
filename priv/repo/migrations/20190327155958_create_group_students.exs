@@ -3,7 +3,7 @@ defmodule RelearnTogether.Repo.Migrations.CreateGroupStudents do
 
   def change do
     create table(:group_students) do
-      add :activity_id, references(:activities, on_delete: :nothing)
+      add :activity_id, references(:activities, on_delete: :delete_all)
       add :student_id, references(:students, on_delete: :nothing)
       add :group_id, references(:groups, on_delete: :nothing)
 

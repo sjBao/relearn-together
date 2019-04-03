@@ -66,12 +66,12 @@ defmodule RelearnTogetherWeb.ActivityController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"cohort_id" => cohort_id, "id" => id}) do
     activity = Groupings.get_activity(id)
     {:ok, _activity} = Groupings.delete_activity(activity)
 
     conn
     |> put_flash(:info, "Activity deleted successfully.")
-    |> redirect(to: Routes.activity_path(conn, :index))
+    |> redirect(to: Routes.cohort_path(conn, :show, cohort_id))
   end
 end
