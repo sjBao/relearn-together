@@ -52,14 +52,14 @@ defmodule RelearnTogetherWeb.ActivityController do
     |> render("edit.html", activity: activity, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "activity" => activity_params}) do
+  def update(conn, %{"cohort_id" => cohort_id, "id" => id, "activity" => activity_params}) do
     activity = Groupings.get_activity(id)
 
     case Groupings.update_activity(activity, activity_params) do
       {:ok, activity} ->
         conn
         |> put_flash(:info, "Activity updated successfully.")
-        |> redirect(to: Routes.activity_path(conn, :show, activity))
+        |> redirect(to: Routes.cohort_activity_path(conn, :edit, cohort_id, id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", activity: activity, changeset: changeset)
