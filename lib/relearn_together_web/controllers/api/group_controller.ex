@@ -20,12 +20,6 @@ defmodule RelearnTogetherWeb.Api.GroupController do
     end
   end
 
-  def update(conn, params) do
-    # create group_students between groups and students
-    IO.inspect params
-    render(conn)
-  end
-
   def delete(conn, %{"id" => group_id}) do
     case group_id |> Groupings.get_group! |> Groupings.delete_group do
       {:ok, group} ->
