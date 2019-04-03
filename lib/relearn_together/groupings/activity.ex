@@ -2,7 +2,7 @@ defmodule RelearnTogether.Groupings.Activity do
   use Ecto.Schema
   import Ecto.Changeset
   alias RelearnTogether.Cohorts.{Cohort, Mod}
-  alias RelearnTogether.Groupings.{Label, Group}
+  alias RelearnTogether.Groupings.{Label, Group, GroupStudent}
 
   schema "activities" do
     field :name, :string
@@ -11,6 +11,7 @@ defmodule RelearnTogether.Groupings.Activity do
     belongs_to :mod, Mod
     belongs_to :label, Label
     has_many :groups, Group
+    has_many :group_students, GroupStudent
 
     timestamps()
   end
