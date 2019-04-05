@@ -8,8 +8,9 @@ export const Groupings = {
 
 const GroupsContainer = (activity_id) => {
   const groupsContainer = document.querySelector('#group-maker-container');
+  const ungroupedContainer = groupsContainer.querySelector('#ungrouped-students')
   const groupsAdapter = GroupsAdapter(activity_id);
-  let groupNumber = 1;
+  let groupNumber = document.querySelectorAll('.group-card').length;
 
   function initalize() {
     // groupsAdapter.fetchGroups().then(groups => {
@@ -19,6 +20,8 @@ const GroupsContainer = (activity_id) => {
 
     uikitjs.util.on('#group-maker-container', 'click', event => {
       if (event.target.closest('.delete-group-button')) {
+        const groupCard = event.target.closest('.group-card')
+        ungroupedContainer.append(...groupCard.querySelectorAll('.sortable-student-card'));
         deleteGroup(event.target.closest('.group-card'))
       }
     })
