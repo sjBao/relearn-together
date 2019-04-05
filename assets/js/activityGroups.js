@@ -2,13 +2,13 @@ import uikitjs from 'uikit';
 export const Groupings = {
   run: () => {
     const groupsContainer = GroupsContainer(location.pathname.split('/')[4]);
-    groupsContainer.initalize()
+    groupsContainer.initalize();
   }
 }
 
 const GroupsContainer = (activity_id) => {
   const groupsContainer = document.querySelector('#group-maker-container');
-  const ungroupedContainer = groupsContainer.querySelector('#ungrouped-students')
+  const ungroupedStudentsContainer = groupsContainer.querySelector('#ungrouped-students')
   const groupsAdapter = GroupsAdapter(activity_id);
   let groupNumber = document.querySelectorAll('.group-card').length;
 
@@ -20,9 +20,11 @@ const GroupsContainer = (activity_id) => {
 
     uikitjs.util.on('#group-maker-container', 'click', event => {
       if (event.target.closest('.delete-group-button')) {
-        const groupCard = event.target.closest('.group-card')
-        ungroupedContainer.append(...groupCard.querySelectorAll('.sortable-student-card'));
-        deleteGroup(event.target.closest('.group-card'))
+        const groupCard = event.target.closest('.group-card');
+        const orphanedStudents = groupCard.querySelectorAll('.sortable-student-card');
+
+        ungroupedStudentsContainer.append(...orphanedStudents);
+        deleteGroup(groupCard);
       }
     })
 
@@ -87,17 +89,29 @@ const GroupsAdapter = (activity_id) => {
     method: 'POST',
     headers,
     body: JSON.stringify({ activity_id })
-  }).then(response => response.json());
+  }).then(response => handleResponse(response, "Group Created", "primary"));
 
   const deleteGroup = (groupId) => fetch(url + `/${groupId}`, {
     method: 'DELETE'
-  }).then(response => response.json());
+  }).then(response => handleResponse(response, "Group Deleted", "primary"));
 
   const updateGroup = (groupId, payload) => fetch(url + `/${groupId}`, {
     method: 'PATCH',
     headers,
     body: JSON.stringify(payload)
-  }).then(response => response.json());
+  }).then(response => handleResponse(response, "Group Updated", "primary"));
+
+  const handleResponse = (response, message = 'Saved!', status = '') => {
+    if (response.ok) {
+      uikitjs.notification({
+        message:`<div class="uk-text-center">${message}</div>`,
+        status,
+        timeout: 800,
+        pos: 'top-left'
+      });
+      return response.json()
+    }
+  }
 
   return {
     fetchGroups, createGroup, deleteGroup, updateGroup
