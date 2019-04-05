@@ -385,11 +385,21 @@ defmodule RelearnTogether.Groupings do
   end
 
   def ungrouped_students(activity_id) do
-    query = from s in Student,
-            join: c in Cohort,
-            on: s.current_cohort_id == c.id,
-            select: s
-    Repo.all(query)
+    grouped_students = from s in Student,
+                        join: c in Cohort,
+                        join: a in Activity,
+                        join: gs in GroupStudent,
+                        on: s.current_cohort_id == c.id 
+                            and a.cohort_id == c.id 
+                            and gs.activity_id == a.id 
+                            and gs.student_id == s.id,
+                        where: a.id == ^activity_id,
+
+                        select: s
+    all_students = from s in Student,
+                   join: c in Cohort, on: s.current_cohort_id == c.id
+
+    Repo.all(all_students) -- Repo.all(grouped_students)
   end
 
   def is_student_grouped?(%{"activity_id" => activity_id, "student_id" => student_id} = params) do
