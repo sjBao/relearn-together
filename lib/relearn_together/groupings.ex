@@ -384,7 +384,7 @@ defmodule RelearnTogether.Groupings do
     GroupStudent.changeset(group_student, %{})
   end
 
-  def ungrouped_students(activity_id) do
+  def ungrouped_students(activity_id, cohort_id) do
     grouped_students = from s in Student,
                         join: c in Cohort,
                         join: a in Activity,
@@ -397,7 +397,7 @@ defmodule RelearnTogether.Groupings do
 
                         select: s
     all_students = from s in Student,
-                   join: c in Cohort, on: s.current_cohort_id == c.id
+                   where: s.current_cohort_id == ^cohort_id
 
     Repo.all(all_students) -- Repo.all(grouped_students)
   end
