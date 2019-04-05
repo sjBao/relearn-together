@@ -1,4 +1,5 @@
 <h1>Edit Activity</h1>
-<span class="uk-text-meta"><%= link "Back", to: Routes.cohort_path(@conn, :show, 9) %></span>
+<span class="uk-text-meta"><%= link "Back", to: Routes.cohort_path(@conn, :show, @conn.params["cohort_id"]) %></span> |
+<span class="uk-text-meta"><%= link "Delete", to: Routes.cohort_activity_path(@conn, :delete, @conn.params["cohort_id"], @conn.params["id"]), method: :delete %></span>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.cohort_activity_path(@conn, :update, @conn.params["cohort_id"], @conn.params["id"])) %>

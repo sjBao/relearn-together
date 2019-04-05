@@ -33,14 +33,25 @@
       <h4>Ungrouped Students</h4>
       <div id="ungrouped-students" uk-sortable="group: sortable-group" class="groupings">
         <%= for student <- @students do %>
-        <div class="sortable-student-card">
-            <div class="">
-              <%= student.preferred_name || "#{student.first_name} #{student.last_name}" %>
-            </div>
+        <div data-student-id="<%= student.id %>" class="sortable-student-card">
+            <div class="student-name"><%= student.preferred_name || "#{student.first_name} #{student.last_name}" %></div>
         </div>
         <% end %>
       </div>
     </div>
+
+    <%= for {group, idx} <- @activity.groups |> Enum.with_index do %>
+      <div data-group-id="<%= group.id %>" class="group-card uk-width-1-3">
+        <h4>Group <%= idx + 1 %> <span class="uk-icon delete-group-button" uk-icon="icon: trash"></span></h4>
+        <div uk-sortable="group: sortable-group" class="groupings">
+        <%= for student <- group.students do %>
+          <div data-student-id="<%= student.id %>" class="sortable-student-card">
+              <div class="student-name"><%= student.preferred_name || "#{student.first_name} #{student.last_name}" %></div>
+          </div>
+        <% end %>
+        </div>  
+      </div>
+    <% end %>
 
     <div class="group-card uk-width-1-3">
       <h4>new group +</h4>
@@ -48,24 +59,6 @@
         <span uk-icon="icon: plus; ratio: 2"></span>
       </div>
     </div>
-
-    <%# <div class="group-card uk-width-1-3">
-        <h4>Group 1</h4>
-        <div uk-sortable="group: sortable-group" class="groupings">
-            <div class="sortable-student-card">
-                <div class="">Item 1</div>
-            </div>
-            <div class="sortable-student-card">
-                <div class="">Item 2</div>
-            </div>
-            <div class="sortable-student-card">
-                <div class="">Item 3</div>
-            </div>
-            <div class="sortable-student-card">
-                <div class="">Item 4</div>
-            </div>
-        </div>
-    </div> %>
 </div>
   
   <div class="uk-margin">

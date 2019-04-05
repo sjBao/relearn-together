@@ -45,9 +45,13 @@
 .sortable-student-card {
   cursor: all-scroll;
   margin: 5px !important;
-  padding: 7px;
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(220, 220, 220);
   transition: transform 0.3s;
+  text-align: center;
+}
+
+.sortable-student-card div {
+  padding: 5px;
 }
 
 .sortable-student-card:hover {

@@ -2,6 +2,7 @@
 
 @import "./phoenix.css";
 @import "./cohort_show.css";
+@import "./activity_edit.css";
 
 #logo {
   min-width: 255px;

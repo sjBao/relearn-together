@@ -40,37 +40,38 @@ defmodule RelearnTogetherWeb.ActivityController do
     render(conn, "show.html", activity: activity)
   end
 
-  def edit(conn, %{"cohort_id" => cohort_id, "id" => id}) do
-    activity = Groupings.get_activity(id)
+  def edit(conn, %{"cohort_id" => cohort_id, "id" => activity_id}) do
+    activity = Groupings.get_activity(activity_id) |> Repo.preload(groups: :students)
     changeset = Groupings.change_activity(activity)
-    %{students: students} = Cohorts.get_cohort!(cohort_id) |> Repo.preload(:students)
+    students = Groupings.ungrouped_students(activity_id)
     conn
     |> assign(:labels, Groupings.list_labels)
     |> assign(:mods, Cohorts.list_mods)
     |> assign(:students, students)
+    |> assign(:activity, activity)
     |> render("edit.html", activity: activity, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "activity" => activity_params}) do
+  def update(conn, %{"cohort_id" => cohort_id, "id" => id, "activity" => activity_params}) do
     activity = Groupings.get_activity(id)
 
     case Groupings.update_activity(activity, activity_params) do
       {:ok, activity} ->
         conn
         |> put_flash(:info, "Activity updated successfully.")
-        |> redirect(to: Routes.activity_path(conn, :show, activity))
+        |> redirect(to: Routes.cohort_activity_path(conn, :edit, cohort_id, id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", activity: activity, changeset: changeset)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"cohort_id" => cohort_id, "id" => id}) do
     activity = Groupings.get_activity(id)
     {:ok, _activity} = Groupings.delete_activity(activity)
 
     conn
     |> put_flash(:info, "Activity deleted successfully.")
-    |> redirect(to: Routes.activity_path(conn, :index))
+    |> redirect(to: Routes.cohort_path(conn, :show, cohort_id))
   end
 end
