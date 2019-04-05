@@ -413,7 +413,7 @@ defmodule RelearnTogether.Groupings do
     create_group_student(attrs)
   end
 
-  def create_or_update_group_student({:ok, group_student}, attrs) do
+  def create_or_update_group_student(group_student, attrs) do
     update_group_student(group_student, attrs)
   end
 end

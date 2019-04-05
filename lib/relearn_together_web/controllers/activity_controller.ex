@@ -40,10 +40,10 @@ defmodule RelearnTogetherWeb.ActivityController do
     render(conn, "show.html", activity: activity)
   end
 
-  def edit(conn, %{"cohort_id" => cohort_id, "id" => id}) do
-    activity = Groupings.get_activity(id) |> Repo.preload(groups: :students)
+  def edit(conn, %{"cohort_id" => cohort_id, "id" => activity_id}) do
+    activity = Groupings.get_activity(activity_id) |> Repo.preload(groups: :students)
     changeset = Groupings.change_activity(activity)
-    %{students: students} = Cohorts.get_cohort!(cohort_id) |> Repo.preload(:students)
+    students = Groupings.ungrouped_students(activity_id)
     conn
     |> assign(:labels, Groupings.list_labels)
     |> assign(:mods, Cohorts.list_mods)
