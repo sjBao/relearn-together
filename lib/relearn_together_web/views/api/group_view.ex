@@ -7,10 +7,6 @@ defmodule RelearnTogetherWeb.Api.GroupView do
     render_many(groups, GroupView, "group.json")
   end
 
-  # def render("group.json", %{group: group}) do
-  #   %{data: render_one(group, GroupView, "group.json")}
-  # end
-
   def render("group.json", %{group: group}) do
     %{
       id: group.id
