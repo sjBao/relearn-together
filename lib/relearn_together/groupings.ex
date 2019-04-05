@@ -5,7 +5,7 @@ defmodule RelearnTogether.Groupings do
 
   import Ecto.Query, warn: false
   alias RelearnTogether.Repo
-
+  alias RelearnTogether.Cohorts.{Student, Cohort}
   alias RelearnTogether.Groupings.{Label, Group, GroupStudent, Activity}
 
   @doc """
@@ -382,5 +382,28 @@ defmodule RelearnTogether.Groupings do
   """
   def change_group_student(%GroupStudent{} = group_student) do
     GroupStudent.changeset(group_student, %{})
+  end
+
+  def ungrouped_students(activity_id) do
+    query = from s in Student,
+            join: c in Cohort,
+            on: s.current_cohort_id == c.id,
+            select: s
+    Repo.all(query)
+  end
+
+  def is_student_grouped?(%{"activity_id" => activity_id, "student_id" => student_id} = params) do
+    query = from gs in GroupStudent, 
+            where: gs.activity_id == ^activity_id and gs.student_id == ^student_id,
+            select: gs
+    Repo.one(query)
+  end
+
+  def create_or_update_group_student(nil, attrs) do
+    create_group_student(attrs)
+  end
+
+  def create_or_update_group_student({:ok, group_student}, attrs) do
+    update_group_student(group_student, attrs)
   end
 end

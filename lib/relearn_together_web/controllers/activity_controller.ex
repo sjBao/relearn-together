@@ -41,7 +41,7 @@ defmodule RelearnTogetherWeb.ActivityController do
   end
 
   def edit(conn, %{"cohort_id" => cohort_id, "id" => id}) do
-    activity = Groupings.get_activity(id) |> Repo.preload(:groups)
+    activity = Groupings.get_activity(id) |> Repo.preload(groups: :students)
     changeset = Groupings.change_activity(activity)
     %{students: students} = Cohorts.get_cohort!(cohort_id) |> Repo.preload(:students)
     conn

@@ -1,6 +1,7 @@
 defmodule RelearnTogether.Cohorts.Student do
   use Ecto.Schema
   import Ecto.Changeset
+  
   alias RelearnTogether.Cohorts.Cohort
 
   schema "students" do

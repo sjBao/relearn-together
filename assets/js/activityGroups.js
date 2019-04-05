@@ -24,7 +24,14 @@ const GroupsContainer = (activity_id) => {
     })
 
     uikitjs.util.on('#group-maker-container', 'added', event => {
-
+      console.log("updating group...")
+      const groupCard = event.target.closest('.group-card');
+      if (groupCard) {
+        const groupId = groupCard.getAttribute('data-group-id');
+        const studentNode = event.detail[1];
+        groupsAdapter.updateGroup(groupId, parseStudentNode(studentNode))
+          .then(response => response)
+      }
     })
 
 
@@ -53,7 +60,7 @@ const GroupsContainer = (activity_id) => {
 
   function parseStudentNode(student) {
     return ({
-      id: student.getAttribute('data-student-id'),
+      student_id: student.getAttribute('data-student-id'),
       name: student.querySelector('.student-name').innerText
     })
   }
