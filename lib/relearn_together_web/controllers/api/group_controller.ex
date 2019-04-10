@@ -21,8 +21,6 @@ defmodule RelearnTogetherWeb.Api.GroupController do
   end
 
   def update(conn, %{"activity_id" => activity_id, "id" => group_id, "student_id" => student_id} = params) do
-    IO.inspect params
-    IO.inspect "+++++++++++++++++++++++++++++++++++++++++"
     params
     |> Groupings.is_student_grouped?
     |> Groupings.create_or_update_group_student(%{ activity_id: activity_id, student_id: student_id, group_id: group_id })

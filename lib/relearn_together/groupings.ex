@@ -402,7 +402,7 @@ defmodule RelearnTogether.Groupings do
     Repo.all(all_students) -- Repo.all(grouped_students)
   end
 
-  def is_student_grouped?(%{"activity_id" => activity_id, "student_id" => student_id} = params) do
+  def is_student_grouped?(%{"activity_id" => activity_id, "student_id" => student_id}) do
     query = from gs in GroupStudent, 
             where: gs.activity_id == ^activity_id and gs.student_id == ^student_id,
             select: gs
@@ -416,4 +416,33 @@ defmodule RelearnTogether.Groupings do
   def create_or_update_group_student(group_student, attrs) do
     update_group_student(group_student, attrs)
   end
+
+  def list_all_groups_for_cohort(cohort_id) do
+    query = from a in Activity,
+            where: a.cohort_id == ^cohort_id,
+            join: g in Group, on: g.activity_id == a.id,
+            select: g
+    Repo.all(query) |> Repo.preload([:students, :label])
+  end
+
+  def frequency_of_pair(cohort_id, pair_ids) do
+    cohort_id
+    |> list_all_groups_for_cohort
+    |> Enum.reduce(%{}, fn (%{students: students} = group, group_frequncies) ->
+      group_student_ids = students |> Enum.map(&(&1.id))
+      cond do
+        Enum.count(group_student_ids -- pair_ids) == Enum.count(group_student_ids) - Enum.count(pair_ids) ->
+          group_frequncies |> Map.update(group.label.name, 1, &(&1 + 1))
+        true ->
+          group_frequncies
+      end
+    end)
+  end
+
+  # we need a function that tells me how many times a pair of students has been paired off before by activity type
+  # get all pairs for this activity
+  # iterate through pairs. for each iteration, 
+    # if they are pairs, iterate through all groups in cohort
+      # if both numbers are found in the group, add a counter to group type in a struct
+  # we also need a function that builds a map of pairing frequency between every other student 
 end
