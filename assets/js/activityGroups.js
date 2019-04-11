@@ -75,7 +75,7 @@ const GroupsContainer = (activity_id) => {
       for (const group_id in data.group_frequencies) {
         if (data.group_frequencies.hasOwnProperty(group_id)) {
           const frequenciesContainer = groupsContainer.querySelector(`[data-group-id="${group_id}"] .group-frequencies`);
-          console.log('updating')
+          console.log('updating', data.group_frequencies)
           frequenciesContainer.innerHTML = frequenciesDetail(data.group_frequencies[group_id]);
         }
       }

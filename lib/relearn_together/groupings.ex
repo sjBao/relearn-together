@@ -426,15 +426,18 @@ defmodule RelearnTogether.Groupings do
   end
 
   def group_overlaps?(group1, group2) do
-    Enum.count(group1.students -- group2.students) == Enum.count(group1.students) - Enum.count(group2.students)
+    Enum.count(group1.students) > 1 
+    && Enum.count(group2.students) > 1
+    && Enum.count(group1.students -- group2.students) 
+    == Enum.count(group1.students) - Enum.count(group2.students)
   end
 
   def frequency_of_current_group(current_group, previous_groups) do
     previous_groups
     |> Enum.reduce(%{}, fn (group, group_frequencies) ->
       cond do
-        group_overlaps?(current_group, group) ->
-          group_frequencies |> Map.update(group.label.name, 1, &(&1 + 1))
+        group_overlaps?(group, current_group) ->
+          group_frequencies |> Map.update(group.label.name, 1, &(&1 + 1)) |> IO.inspect
         true ->
           group_frequencies
       end
@@ -446,8 +449,7 @@ defmodule RelearnTogether.Groupings do
     previous_groups = list_previous_activity_groups_for_cohort(cohort_id, activity_id)
 
     groups
-    |> Enum.with_index
-    |> Enum.reduce(%{}, fn ({group, index}, activity_groups_frequencies) -> 
+    |> Enum.reduce(%{}, fn (group, activity_groups_frequencies) -> 
       Map.put(activity_groups_frequencies, group.id, frequency_of_current_group(group, previous_groups))
     end)
 
