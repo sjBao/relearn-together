@@ -35,7 +35,7 @@ const GroupsContainer = (activity_id) => {
         const groupId = groupCard.getAttribute('data-group-id');
         const studentNode = event.detail[1];
         groupsAdapter.updateGroup(groupId, parseStudentNode(studentNode))
-          .then(response => response)
+          .then(renderGroupFrequencies)
       }
     })
 
@@ -70,6 +70,18 @@ const GroupsContainer = (activity_id) => {
     })
   }
 
+  function renderGroupFrequencies(data) {
+    if (data.group_frequencies) {
+      for (const group_id in data.group_frequencies) {
+        if (data.group_frequencies.hasOwnProperty(group_id)) {
+          const frequenciesContainer = groupsContainer.querySelector(`[data-group-id="${group_id}"] .group-frequencies`);
+          console.log('updating')
+          frequenciesContainer.innerHTML = frequenciesDetail(data.group_frequencies[group_id]);
+        }
+      }
+    }
+  }
+
 
   return { initalize }
 
@@ -89,19 +101,19 @@ const GroupsAdapter = (activity_id) => {
     method: 'POST',
     headers,
     body: JSON.stringify({ activity_id })
-  }).then(response => handleResponse(response, "Group Created", "primary"));
+  }).then(response => showNotification(response, "Group Created", "primary"));
 
   const deleteGroup = (groupId) => fetch(url + `/${groupId}`, {
     method: 'DELETE'
-  }).then(response => handleResponse(response, "Group Deleted", "primary"));
+  }).then(response => showNotification(response, "Group Deleted", "primary"));
 
   const updateGroup = (groupId, payload) => fetch(url + `/${groupId}`, {
     method: 'PATCH',
     headers,
     body: JSON.stringify(payload)
-  }).then(response => handleResponse(response, "Group Updated", "primary"));
+  }).then(response => showNotification(response, "Group Updated", "primary"));
 
-  const handleResponse = (response, message = 'Saved!', status = '') => {
+  const showNotification = (response, message = 'Saved!', status = '') => {
     if (response.ok) {
       uikitjs.notification({
         message:`<div class="uk-text-center">${message}</div>`,
@@ -124,6 +136,7 @@ const GroupCard = (group, number) => {
   node.innerHTML = `
 <div data-group-id="${group.id}" class="group-card uk-width-1-3">
   <h4>Group ${number} <span class="uk-icon delete-group-button" uk-icon="icon: trash"></span></h4>
+  <div class="group-frequencies"></div>
   <div uk-sortable="group: sortable-group" class="groupings">
   </div>
 </div>`;
@@ -131,10 +144,10 @@ const GroupCard = (group, number) => {
   return node.content.firstElementChild;
 }
 
-const Student = () => {
-  const render = () => `
-    <div class="sortable-student-card">
-      <div class="">Item 1</div>
-    </div>
-  `
+const frequenciesDetail = (previousFrequencies) => {
+  let node = '';
+  for (const activityType in previousFrequencies) {
+    node += `<p>${activityType} - ${previousFrequencies[activityType]}</p>`
+  }
+  return node
 }

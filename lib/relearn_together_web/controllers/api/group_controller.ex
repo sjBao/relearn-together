@@ -25,7 +25,7 @@ defmodule RelearnTogetherWeb.Api.GroupController do
     |> Groupings.is_student_grouped?
     |> Groupings.create_or_update_group_student(%{ activity_id: activity_id, student_id: student_id, group_id: group_id })
 
-    render(conn, "group.json", group: Groupings.get_group!(group_id))
+    render(conn, "group.json", group: Groupings.get_group!(group_id), group_frequencies: Groupings.get_group_frequencies_for_activity(activity_id))
   end
 
   def delete(conn, %{"id" => group_id}) do
