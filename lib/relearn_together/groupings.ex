@@ -417,26 +417,40 @@ defmodule RelearnTogether.Groupings do
     update_group_student(group_student, attrs)
   end
 
-  def list_all_groups_for_cohort(cohort_id) do
+  def list_previous_activity_groups_for_cohort(cohort_id, activity_id) do
     query = from a in Activity,
-            where: a.cohort_id == ^cohort_id,
+            where: a.cohort_id == ^cohort_id and a.id != ^activity_id,
             join: g in Group, on: g.activity_id == a.id,
             select: g
     Repo.all(query) |> Repo.preload([:students, :label])
   end
 
-  def frequency_of_pair(cohort_id, pair_ids) do
-    cohort_id
-    |> list_all_groups_for_cohort
-    |> Enum.reduce(%{}, fn (%{students: students} = group, group_frequncies) ->
-      group_student_ids = students |> Enum.map(&(&1.id))
+  def group_overlaps?(group1, group2) do
+    Enum.count(group1.students -- group2.students) == Enum.count(group1.students) - Enum.count(group2.students)
+  end
+
+  def frequency_of_current_group(current_group, previous_groups) do
+    previous_groups
+    |> Enum.reduce(%{}, fn (group, group_frequencies) ->
       cond do
-        Enum.count(group_student_ids -- pair_ids) == Enum.count(group_student_ids) - Enum.count(pair_ids) ->
-          group_frequncies |> Map.update(group.label.name, 1, &(&1 + 1))
+        group_overlaps?(current_group, group) ->
+          group_frequencies |> Map.update(group.label.name, 1, &(&1 + 1))
         true ->
-          group_frequncies
+          group_frequencies
       end
     end)
+  end
+
+  def get_group_frequencies_for_activity(activity_id) do
+    %{groups: groups, cohort_id: cohort_id} = get_activity(activity_id) |> Repo.preload([groups: :students])
+    previous_groups = list_previous_activity_groups_for_cohort(cohort_id, activity_id)
+
+    groups
+    |> Enum.with_index
+    |> Enum.reduce(%{}, fn ({group, index}, activity_groups_frequencies) -> 
+      Map.put(activity_groups_frequencies, group.id, frequency_of_current_group(group, previous_groups))
+    end)
+
   end
 
   # we need a function that tells me how many times a pair of students has been paired off before by activity type
