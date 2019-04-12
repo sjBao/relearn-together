@@ -43,7 +43,7 @@ defmodule RelearnTogetherWeb.ActivityController do
   def edit(conn, %{"cohort_id" => cohort_id, "id" => activity_id}) do
     activity = Groupings.get_activity(activity_id) |> Repo.preload(groups: :students)
     changeset = Groupings.change_activity(activity)
-    students = Groupings.ungrouped_students(activity_id)
+    students = Groupings.ungrouped_students(activity_id, cohort_id)
     conn
     |> assign(:labels, Groupings.list_labels)
     |> assign(:mods, Cohorts.list_mods)

@@ -384,7 +384,7 @@ defmodule RelearnTogether.Groupings do
     GroupStudent.changeset(group_student, %{})
   end
 
-  def ungrouped_students(activity_id) do
+  def ungrouped_students(activity_id, cohort_id) do
     grouped_students = from s in Student,
                         join: c in Cohort,
                         join: a in Activity,
@@ -397,12 +397,12 @@ defmodule RelearnTogether.Groupings do
 
                         select: s
     all_students = from s in Student,
-                   join: c in Cohort, on: s.current_cohort_id == c.id
+                   where: s.current_cohort_id == ^cohort_id
 
     Repo.all(all_students) -- Repo.all(grouped_students)
   end
 
-  def is_student_grouped?(%{"activity_id" => activity_id, "student_id" => student_id} = params) do
+  def is_student_grouped?(%{"activity_id" => activity_id, "student_id" => student_id}) do
     query = from gs in GroupStudent, 
             where: gs.activity_id == ^activity_id and gs.student_id == ^student_id,
             select: gs
@@ -416,4 +416,49 @@ defmodule RelearnTogether.Groupings do
   def create_or_update_group_student(group_student, attrs) do
     update_group_student(group_student, attrs)
   end
+
+  def list_previous_activity_groups_for_cohort(cohort_id, activity_id) do
+    query = from a in Activity,
+            where: a.cohort_id == ^cohort_id and a.id != ^activity_id,
+            join: g in Group, on: g.activity_id == a.id,
+            select: g
+    Repo.all(query) |> Repo.preload([:students, :label])
+  end
+
+  def group_overlaps?(group1, group2) do
+    Enum.count(group1.students) > 1 
+    && Enum.count(group2.students) > 1
+    && Enum.count(group1.students -- group2.students) 
+    == Enum.count(group1.students) - Enum.count(group2.students)
+  end
+
+  def frequency_of_current_group(current_group, previous_groups) do
+    previous_groups
+    |> Enum.reduce(%{}, fn (group, group_frequencies) ->
+      cond do
+        group_overlaps?(group, current_group) ->
+          group_frequencies |> Map.update(group.label.name, 1, &(&1 + 1)) |> IO.inspect
+        true ->
+          group_frequencies
+      end
+    end)
+  end
+
+  def get_group_frequencies_for_activity(activity_id) do
+    %{groups: groups, cohort_id: cohort_id} = get_activity(activity_id) |> Repo.preload([groups: :students])
+    previous_groups = list_previous_activity_groups_for_cohort(cohort_id, activity_id)
+
+    groups
+    |> Enum.reduce(%{}, fn (group, activity_groups_frequencies) -> 
+      Map.put(activity_groups_frequencies, group.id, frequency_of_current_group(group, previous_groups))
+    end)
+
+  end
+
+  # we need a function that tells me how many times a pair of students has been paired off before by activity type
+  # get all pairs for this activity
+  # iterate through pairs. for each iteration, 
+    # if they are pairs, iterate through all groups in cohort
+      # if both numbers are found in the group, add a counter to group type in a struct
+  # we also need a function that builds a map of pairing frequency between every other student 
 end
